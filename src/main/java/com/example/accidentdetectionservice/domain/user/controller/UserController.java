@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/auth/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/sign-up")
-    public ResponseEntity<MessageResponseDto> signUp(@RequestBody SignupRequestDto requestDto) {
+    @GetMapping("/sign-up")
+    public ResponseEntity<MessageResponseDto> signup(@RequestBody SignupRequestDto requestDto) {
         return userService.signup(requestDto);
     }
 
