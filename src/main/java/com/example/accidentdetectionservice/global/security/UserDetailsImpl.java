@@ -2,18 +2,13 @@ package com.example.accidentdetectionservice.global.security;
 
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import com.example.accidentdetectionservice.domain.user.entity.UserRoleEnum;
-import com.example.accidentdetectionservice.domain.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 @Getter
 @RequiredArgsConstructor
@@ -46,21 +41,21 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

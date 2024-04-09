@@ -31,6 +31,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException {
         if (req.getRequestURI().startsWith("/auth/users/sign") ||
             req.getRequestURI().equals("/")) {
+
+
             log.info("Pass Authorization : " + req.getRequestURI());
             filterChain.doFilter(req, res);
             return;

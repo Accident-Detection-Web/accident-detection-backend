@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,7 +26,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JwtAuthenticationFilter(JwtUtil jwtUtil, RefreshTokenService refreshTokenService) {
         this.jwtUtil = jwtUtil;
         this.refreshTokenService = refreshTokenService;
-        setFilterProcessesUrl("auth/users/sign-in");
+        setFilterProcessesUrl("/auth/users/sign-in");
     }
 
     @Override
@@ -38,18 +37,26 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if (request.getContentLength() == 0) {
             throw new RuntimeException("요청 본문이 비어 있습니다");
         }
+        LoginRequestDto requestDto = null;
+        try {
+            requestDto = mapper.readValue(request.getInputStream(), LoginRequestDto.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        LoginRequestDto requestDto = new LoginRequestDto(username, password);
-
-        return getAuthenticationManager().authenticate(
+        try {
+            return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        requestDto.getUsername(),
-                        requestDto.getPassword(),
+                    requestDto.getUsername(),
+                    requestDto.getPassword(),
                     null
                 )
-        );
+            );
+        } catch (AuthenticationException e) {
+            // 로그에 인증 실패 사유를 기록
+            log.error("인증 실패: " + e.getMessage());
+            throw new RuntimeException();
+        }
     }
 
     @Override
@@ -68,7 +75,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         /**
          * @see 구현 되지 않음
          */
-        response.sendRedirect("/");
+//        response.sendRedirect("/");
 
     }
 
@@ -88,6 +95,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         /**
          * @see 구현 되지 않음
          */
-        response.sendRedirect("auth/users/sign-in-page");
+//        response.sendRedirect("/");
+
     }
 }
