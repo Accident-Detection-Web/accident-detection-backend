@@ -23,7 +23,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    /**
+     * 회원가입
+     * @param requestDto
+     * @return
+     */
     @Transactional
     public ResponseEntity<MessageResponseDto> signup(SignupRequestDto requestDto) {
 
