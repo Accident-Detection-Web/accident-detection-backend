@@ -4,6 +4,7 @@ import com.example.accidentdetectionservice.global.webflux.dto.AccidentRequestDt
 import com.example.accidentdetectionservice.global.webflux.dto.AccidentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
