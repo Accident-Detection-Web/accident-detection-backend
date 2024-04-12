@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.beans.ConstructorProperties;
 import java.lang.reflect.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
-//@Setter
+@Setter
 @NoArgsConstructor
 public class Notify extends Auditable {
 
