@@ -2,6 +2,7 @@ package com.example.accidentdetectionservice.domain.user.controller;
 
 import com.example.accidentdetectionservice.domain.user.service.MailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,10 +16,11 @@ public class MailController {
     private final MailService mailService;
 
     @ResponseBody
-    @PostMapping("/mail")
-    public String mailSend(String mail) {
+    @PostMapping("/sign-up/mail")
+    public ResponseEntity<String> mailSend(String mail) {
         int number = mailService.sendMail(mail);
-        return "" + number;
+
+        return ResponseEntity.ok().body("" + number);
     }
 
 }

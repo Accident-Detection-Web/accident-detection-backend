@@ -124,7 +124,7 @@ public class JwtUtil {
         HttpServletResponse res) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken);
-            log.debug("Valid JWT Token");
+            log.info("Valid JWT Token");
             return accessToken;
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
             log.error(e.toString());

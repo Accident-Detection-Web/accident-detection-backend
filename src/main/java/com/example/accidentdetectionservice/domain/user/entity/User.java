@@ -1,5 +1,8 @@
 package com.example.accidentdetectionservice.domain.user.entity;
 
+import com.example.accidentdetectionservice.domain.notify.aop.proxy.NotifyInfo;
+import com.example.accidentdetectionservice.domain.notify.entity.Notify;
+import com.example.accidentdetectionservice.domain.notify.entity.Notify.NotificationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class User {
+public class User implements NotifyInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +42,15 @@ public class User {
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+
+    @Override
+    public User getReceiver() {
+        return this;
+    }
+
+    @Override
+    public NotificationType getNotificationType() {
+        return NotificationType.ACCIDENT;
     }
 }

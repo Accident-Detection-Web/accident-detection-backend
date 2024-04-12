@@ -16,10 +16,18 @@ public class MailService {
     private String senderEmail;
     private static int number;
 
+    /**
+     * 난수 생성
+     */
     public static void createNumber(){
         number = (int)(Math.random() * 90000) + 100000;
     }
 
+    /**
+     * Client 에게 인증번호 보내기
+     * @param mail
+     * @return
+     */
     public int sendMail(String mail) {
         MimeMessage message = createMail(mail);
         javaMailSender.send(message);
@@ -27,7 +35,11 @@ public class MailService {
         return number;
     }
 
-
+    /**
+     * 이메일 본문 만들기
+     * @param mail
+     * @return
+     */
     public MimeMessage createMail(String mail) {
         createNumber();
         MimeMessage message = javaMailSender.createMimeMessage();
