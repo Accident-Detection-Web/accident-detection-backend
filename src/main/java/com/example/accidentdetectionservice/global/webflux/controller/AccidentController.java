@@ -14,10 +14,10 @@ import reactor.core.publisher.Mono;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/webflux")
 public class AccidentController {
 
-    @PostMapping("/webflux/receive-data")
+    @PostMapping("/receive-data")
     public Mono<ServerResponse> receiveData(@RequestBody AccidentRequestDto requestDto){
 
         // 사용자에게 사고 감지 알림 보낸다. -> 로직 따로 구현, 상호작용은 프론트앤드쪽에서 담당

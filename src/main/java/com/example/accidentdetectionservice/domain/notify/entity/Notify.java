@@ -21,7 +21,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
-@Setter
+//@Setter
 @NoArgsConstructor
 public class Notify extends Auditable {
 

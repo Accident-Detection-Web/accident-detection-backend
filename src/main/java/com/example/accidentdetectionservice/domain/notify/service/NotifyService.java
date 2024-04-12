@@ -1,5 +1,7 @@
 package com.example.accidentdetectionservice.domain.notify.service;
 
+import static com.example.accidentdetectionservice.domain.notify.dto.NotifyDto.*;
+import static com.example.accidentdetectionservice.domain.notify.dto.NotifyDto.Response.*;
 import static com.example.accidentdetectionservice.domain.notify.entity.Notify.*;
 
 import com.example.accidentdetectionservice.domain.notify.dto.NotifyDto;
@@ -82,7 +84,7 @@ public class NotifyService {
         emitters.forEach(
             (key, emitter) ->{
                 emitterRepository.saveEventCache(key, notification);
-                sendNotification(emitter, eventId, key, NotifyDto.Response.createResponse(notification));
+                sendNotification(emitter, eventId, key, createResponse(notification));
             }
         );
 
