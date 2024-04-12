@@ -4,6 +4,7 @@ import com.example.accidentdetectionservice.domain.notify.service.NotifyService;
 import com.example.accidentdetectionservice.global.security.UserDetailsImpl;
 import com.example.accidentdetectionservice.global.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,9 @@ public class NotifyController {
     private final NotifyService notifyService;
 
     @GetMapping(value = "/subscribe", produces = "text/event-stream")
-    public SseEmitter subscribe(@AuthenticationPrincipal UserDetailsImpl userDetails,
+    public ResponseEntity<SseEmitter> subscribe(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId){
-        return notifyService.subscribe(userDetails.getUser().getUsername(), lastEventId);
+        return ResponseEntity.ok(notifyService.subscribe(userDetails.getUser().getUsername(), lastEventId));
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,6 +73,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/health", "/css/**", "/js/**", "/img/**", "/lib/**",
                         "/scss/**").permitAll()
                     .requestMatchers("/auth/users/**").permitAll()
+                    .requestMatchers("/api/webflux/**").permitAll()
                     .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

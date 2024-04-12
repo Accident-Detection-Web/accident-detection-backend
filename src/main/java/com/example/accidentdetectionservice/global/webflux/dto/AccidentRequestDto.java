@@ -10,7 +10,7 @@ public class AccidentRequestDto {
 
     // webflux 에서 데이터를 주고받을 대는 주로 json 형식 사용
     private Boolean accident;
-    private byte[] pngData; // png 파일의 데이터를 저장할 필드
+    private String pngData; // png 파일의 데이터를 저장할 필드
     private String latitude; // 위도
     private String longitude; // 경도
 
@@ -18,7 +18,7 @@ public class AccidentRequestDto {
     public String toString() {
         return "AccidentRequestDto{" +
             "accident=" + accident +
-            ", frame=" + Arrays.toString(pngData) +
+            ", frame=" + pngData +
             ", latitude='" + latitude + '\'' +
             ", longitude='" + longitude + '\'' +
             '}';
