@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public void ExHandler(Exception exception) {
-        log.error(exception.toString());
-        exception.printStackTrace();
+    public void ExHandler(Exception e) {
+        log.error(e.toString());
+        e.printStackTrace();
 
     }
 
