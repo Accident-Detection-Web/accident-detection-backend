@@ -1,20 +1,46 @@
 package com.example.accidentdetectionservice.global.webflux.service;
 
+import com.example.accidentdetectionservice.domain.mail.entity.MailEvent;
+import com.example.accidentdetectionservice.domain.mail.repository.MailRepository;
 import com.example.accidentdetectionservice.domain.notify.annotation.NeedNotify;
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import com.example.accidentdetectionservice.global.webflux.dto.AccidentRequestDto;
 import com.example.accidentdetectionservice.global.webflux.dto.AccidentResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AccidentService {
 
-    public Mono<AccidentResponseDto> processAccidentData(AccidentRequestDto requestDto) {
-        // 받은 데이터를 처리하고, 처리 결과를 Mono로 반환하는 비즈니스 로직을 구현합니다.
+    private final MailRepository mailRepository;
+
+    /**
+     * @apiNote 해당 User 의 MailEvent 객체를 만든다.
+     * @param requestDto
+     * @param user
+     * @return
+     */
+    @Transactional
+    public Mono<AccidentResponseDto> processAccidentData(AccidentRequestDto requestDto, User user) {
+
+        createMailEvent(requestDto, user);
+
         AccidentResponseDto responseDto = new AccidentResponseDto(requestDto);
-        // 예시로서 단순히 빈 응답 DTO를 반환합니다.
+
         return Mono.just(responseDto);
+    }
+
+    private void createMailEvent(AccidentRequestDto requestDto, User user) {
+        String toAddress = user.getEmail();
+        String subject = "[Accident Detection] 요청하신 데이터 입니다.";
+        String content = "<p>안녕하세요.</p><p>"+ " 병원 데이터 입니다. </p><p>감사합니다.</p>";
+        byte[] attachPng = requestDto.getPngData().getBytes();
+
+        mailRepository.save(new MailEvent(toAddress, subject, content, attachPng, user));
     }
 
     @NeedNotify

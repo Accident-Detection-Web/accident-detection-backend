@@ -26,8 +26,7 @@ public class AccidentController {
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
         accidentService.sendNotifyClient(userDetails.getUser());
 
-        return Mono.just(requestDto)
-            .flatMap(accidentService::processAccidentData)
+        return accidentService.processAccidentData(requestDto, userDetails.getUser())
             .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
