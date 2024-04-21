@@ -17,6 +17,16 @@ public class MailEvent {
     @Column(name = "mail_event_id")
     private Long id;
 
+    @Column(name = "to_address")
+    private String toAddress;
+
+    @Column(name = "subject")
+    private String subject;
+
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "attach_png")
     private byte[] attachPng;
 
     @ManyToOne
@@ -25,5 +35,11 @@ public class MailEvent {
     private User receiver;
 
 
-
+    public MailEvent(String toAddress, String subject, String content, byte[] attachPng, User receiver) {
+        this.toAddress = toAddress;
+        this.subject = subject;
+        this.content = content;
+        this.attachPng = attachPng;
+        this.receiver = receiver;
+    }
 }

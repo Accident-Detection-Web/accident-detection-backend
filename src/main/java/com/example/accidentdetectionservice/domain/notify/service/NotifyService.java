@@ -14,10 +14,12 @@ import java.io.IOException;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class NotifyService {
 
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
@@ -25,7 +27,7 @@ public class NotifyService {
     private final EmitterRepository emitterRepository;
     private final NotifyRepository notifyRepository;
 
-
+    @Transactional
     public SseEmitter subscribe(String username, String lastEventId) {
         String emitterId = makeTimeIncludeId(username);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
@@ -73,6 +75,7 @@ public class NotifyService {
         return email + "_" + System.currentTimeMillis();
     }
 
+    @Transactional
     public void send(User receiver, NotificationType notificationType, String content,
         String url) {
         Notify notification = notifyRepository.save(createNotification(receiver, notificationType, content, url));
