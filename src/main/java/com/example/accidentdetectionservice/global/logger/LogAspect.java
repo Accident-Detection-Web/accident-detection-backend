@@ -17,15 +17,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogAspect {
 
-    @Pointcut("execution(* com.example.accidentdetectionservice..*(..))")
+    @Pointcut("execution(* com.example.accidentdetectionservice.domain..*(..))")
     public void all() {
     }
 
-    @Pointcut("execution(* com.example.accidentdetectionservice..*Controller.*(..))")
+    @Pointcut("execution(* com.example.accidentdetectionservice.domain..*Controller.*(..))")
     public void controller() {
     }
 
-    @Pointcut("execution(* com.example.accidentdetectionservice..*Service.*(..))")
+    @Pointcut("execution(* com.example.accidentdetectionservice.domain..*Service.*(..))")
     public void service() {
     }
 

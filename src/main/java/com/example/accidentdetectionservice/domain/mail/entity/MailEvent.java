@@ -30,7 +30,7 @@ public class MailEvent {
     private byte[] attachPng;
 
     @ManyToOne
-    @JoinColumn(name = "memeber_id")
+    @JoinColumn(name = "member_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User receiver;
 

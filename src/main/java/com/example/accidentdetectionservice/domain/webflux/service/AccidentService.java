@@ -1,11 +1,11 @@
-package com.example.accidentdetectionservice.global.webflux.service;
+package com.example.accidentdetectionservice.domain.webflux.service;
 
 import com.example.accidentdetectionservice.domain.mail.entity.MailEvent;
 import com.example.accidentdetectionservice.domain.mail.repository.MailRepository;
 import com.example.accidentdetectionservice.domain.notify.annotation.NeedNotify;
 import com.example.accidentdetectionservice.domain.user.entity.User;
-import com.example.accidentdetectionservice.global.webflux.dto.AccidentRequestDto;
-import com.example.accidentdetectionservice.global.webflux.dto.AccidentResponseDto;
+import com.example.accidentdetectionservice.domain.webflux.dto.AccidentRequestDto;
+import com.example.accidentdetectionservice.domain.webflux.dto.AccidentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +38,9 @@ public class AccidentService {
         String toAddress = user.getEmail();
         String subject = "[Accident Detection] 요청하신 데이터 입니다.";
         String content = "<p>안녕하세요.</p><p>"+ " 병원 데이터 입니다. </p><p>감사합니다.</p>";
-        byte[] attachPng = requestDto.getPngData().getBytes();
+//        byte[] attachPng = requestDto.getPngData().getBytes();
 
-        mailRepository.save(new MailEvent(toAddress, subject, content, attachPng, user));
+        mailRepository.save(new MailEvent(toAddress, subject, content, null, user));
     }
 
     @NeedNotify
