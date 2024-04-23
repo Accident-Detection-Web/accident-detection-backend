@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailService {
+public class SignupMailService {
 
     private final JavaMailSender javaMailSender;
+
     @Value("${spring.mail.username}")
     private String senderEmail;
+
     private static int number;
 
     /**
@@ -42,6 +44,7 @@ public class MailService {
      */
     public MimeMessage createMail(String mail) {
         createNumber();
+
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {

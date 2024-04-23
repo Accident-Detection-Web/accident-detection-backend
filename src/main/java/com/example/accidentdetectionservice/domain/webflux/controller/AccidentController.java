@@ -1,9 +1,9 @@
-package com.example.accidentdetectionservice.global.webflux.controller;
+package com.example.accidentdetectionservice.domain.webflux.controller;
 
+import com.example.accidentdetectionservice.domain.webflux.dto.AccidentRequestDto;
+import com.example.accidentdetectionservice.domain.webflux.dto.AccidentResponseDto;
+import com.example.accidentdetectionservice.domain.webflux.service.AccidentService;
 import com.example.accidentdetectionservice.global.security.UserDetailsImpl;
-import com.example.accidentdetectionservice.global.webflux.dto.AccidentRequestDto;
-import com.example.accidentdetectionservice.global.webflux.dto.AccidentResponseDto;
-import com.example.accidentdetectionservice.global.webflux.service.AccidentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,7 @@ public class AccidentController {
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
         accidentService.sendNotifyClient(userDetails.getUser());
 
-        return Mono.just(requestDto)
-            .flatMap(accidentService::processAccidentData)
+        return accidentService.processAccidentData(requestDto, userDetails.getUser())
             .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
