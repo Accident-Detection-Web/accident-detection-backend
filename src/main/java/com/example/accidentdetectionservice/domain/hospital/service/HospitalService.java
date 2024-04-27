@@ -20,10 +20,10 @@ public class HospitalService {
     public static String getHospitalInfo() throws Exception {
         StringBuilder hospitalInfoBuilder = new StringBuilder();
 
-        String Si = "서울특별시";
-        String Gun = "강남구";
+        String Si = "경기도";
+        String Gun = "수원시";
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=E%2FWaNnA2wH3XapJofahD%2BbpzP%2BjRAig2VvMnTAX2PeU9MsCs3uW%2FuFMl2jB83qkZaJEI%2BqdkuQeO02nD6U3eLQ%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=351qYfh59jJHQGLGCTf2af0is6PVkCNFKEfj2%2FdXVQKfBWFGg1%2BiSHbG6D6edWitwcgQ%2FKV6P82xpCPpM%2FD4sg%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("STAGE1","UTF-8") + "=" + URLEncoder.encode(Si, "UTF-8")); /*주소(시도)*/
         urlBuilder.append("&" + URLEncoder.encode("STAGE2","UTF-8") + "=" + URLEncoder.encode(Gun, "UTF-8")); /*주소(시군구)*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
