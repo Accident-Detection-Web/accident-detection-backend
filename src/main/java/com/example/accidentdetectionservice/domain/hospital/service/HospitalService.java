@@ -1,21 +1,15 @@
-package com.example.accidentdetectionservice.domain.user.service;
-import java.io.InputStreamReader;
+package com.example.accidentdetectionservice.domain.hospital.service;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.io.BufferedReader;
-import java.io.IOException;
-import org.w3c.dom.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.*;
-import java.io.*;
-
-import org.w3c.dom.*;
-import org.xml.sax.InputSource;
-import javax.xml.parsers.*;
-import java.io.*;
 
 public class HospitalService {
     public static void main(String[] args) throws Exception {
