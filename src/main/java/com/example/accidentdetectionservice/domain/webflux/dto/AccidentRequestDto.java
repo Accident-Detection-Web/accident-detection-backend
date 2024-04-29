@@ -13,14 +13,8 @@ public class AccidentRequestDto {
     private String pngData; // png 파일의 데이터를 저장할 필드
     private String latitude; // 위도
     private String longitude; // 경도
+    private String time;
+    private Long severityLevel;
+    private String severity;
 
-    @Override
-    public String toString() {
-        return "AccidentRequestDto{" +
-            "accident=" + accident +
-            ", frame=" + pngData +
-            ", latitude='" + latitude + '\'' +
-            ", longitude='" + longitude + '\'' +
-            '}';
-    }
 }

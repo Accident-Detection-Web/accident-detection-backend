@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 public class AccidentService {
 
     private final MailRepository mailRepository;
+    private final ReverseGeocodingService reverseGeocodingService;
 
     /**
      * @apiNote 해당 User 의 MailEvent 객체를 만든다.
@@ -25,13 +26,23 @@ public class AccidentService {
      * @return
      */
     @Transactional
-    public Mono<AccidentResponseDto> processAccidentData(AccidentRequestDto requestDto, User user) {
+    public Mono<AccidentResponseDto> processAccidentData(AccidentRequestDto requestDto, User user)  {
 
         createMailEvent(requestDto, user);
+
+        createAccidentEvent(requestDto, user);
 
         AccidentResponseDto responseDto = new AccidentResponseDto(requestDto);
 
         return Mono.just(responseDto);
+    }
+
+    private void createAccidentEvent(AccidentRequestDto requestDto, User user) {
+        try {
+            String address = reverseGeocodingService.getAddress(Double.parseDouble(requestDto.getLatitude()), Double.parseDouble(requestDto.getLongitude()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void createMailEvent(AccidentRequestDto requestDto, User user) {
