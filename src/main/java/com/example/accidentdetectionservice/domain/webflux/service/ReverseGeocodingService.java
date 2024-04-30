@@ -1,30 +1,38 @@
 package com.example.accidentdetectionservice.domain.webflux.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j(topic = "NAVER API")
 public class ReverseGeocodingService {
 
-    @Value("${naver.clientId}")
-    private String clientId;
-    @Value("${naver.clientSecretId")
-    private String clientSecretId;
+    /**
+     * @apiNote application-secret.yml 정보 가져오는 부분 refactoring 필요
+     */
+    @Value("${naver.client-id}")
+    private static String clientId;
+    @Value("${naver.client-secret-id")
+    private static String clientSecretId;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
+    /**
+     * naver cloud platform reverseGeocoding 을 이용한 경도 위도를 주소로 변환
+     * @param latitude
+     * @param longitude
+     * @return address(String type)
+     */
     public String getAddress(double latitude, double longitude){
         try {
             String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc";
@@ -33,8 +41,8 @@ public class ReverseGeocodingService {
             URL url = new URL(requestUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
-            conn.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecretId);
+            conn.setRequestProperty("X-NCP-APIGW-API-KEY-ID", "4nqjg17mp4");
+            conn.setRequestProperty("X-NCP-APIGW-API-KEY", "6soiuZVRnR7eETaDKQmIf5x9ktGr9D8TnvaavJOg");
 
             int responseCode = conn.getResponseCode();
             BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -64,5 +72,13 @@ public class ReverseGeocodingService {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Test
+     */
+//    public static void main(String[] args) {
+//        ReverseGeocodingService service = new ReverseGeocodingService(new ObjectMapper());
+//        String address = service.getAddress(37.554520865005, 127.0806325017);
+//        System.out.println(address);
+//    }
 
 }

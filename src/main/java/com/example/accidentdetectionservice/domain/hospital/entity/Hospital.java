@@ -1,7 +1,5 @@
 package com.example.accidentdetectionservice.domain.hospital.entity;
 
-import com.example.accidentdetectionservice.domain.user.entity.User;
-import com.sun.jdi.StringReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,29 +16,22 @@ public class Hospital {
     @Column(name = "hospital_id")
     private Long id;
 
-    @Column(name = "time")
-    private String time;
 
-    @Column(name = "latitute")
-    private String latitude;
+    @Column(name = "hospital_name")
+    private String name;
 
-    @Column(name = "longitude")
-    private String longitude;
+    @Column(name = "hospital_tel")
+    private String tel;
 
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "severity_level")
-    private Long severityLevel;
-
-    @Column(name = "severity")
-    private String severity;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accident_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User receiver;
+    private Accident accident;
 
 
-
+    public Hospital(String name, String tel, Accident accident) {
+        this.name = name;
+        this.tel = tel;
+        this.accident = accident;
+    }
 }
