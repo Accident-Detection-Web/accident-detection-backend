@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,4 +38,24 @@ public class HospitalController {
             throw new RuntimeException("Failed to get hospital and accident all data");
         }
     }
+
+    @GetMapping("/accident/statistics/month")
+    public ResponseEntity<Map<String,Long>> getAccidentNumberOfMonth() {
+        try {
+            return ResponseEntity.ok(hospitalService.getAccidentNumberOfMonth());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get accident number of month");
+        }
+    }
+
+
+    @GetMapping("/accident/statistics/region")
+    public ResponseEntity<Map<String, Long>> getAccidentNumberOfRegion(){
+        try {
+            return ResponseEntity.ok(hospitalService.getAccidentNumberOfRegion());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get accident number of region");
+        }
+    }
+
 }

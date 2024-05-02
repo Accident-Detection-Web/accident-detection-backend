@@ -21,8 +21,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,7 +101,66 @@ public class HospitalService {
 
     }
 
+    public Map<String, Long> getAccidentNumberOfMonth() {
+        // 날짜 형식 :  "2022-04-25 15:30:00"
+        Map<String ,Long> map = new HashMap<>();
+        List<Accident> accidentList = accidentRepository.findAll();
+        for (Accident accident : accidentList) {
+            String[] dateTimeParts = accident.getDate().split(" ");
+            String[] dateParts = dateTimeParts[0].split("-");
 
+            String yearMonth = dateParts[0] + "-" + dateParts[1];
+
+            Long count = map.getOrDefault(yearMonth, 0L);
+            map.put(yearMonth, count + 1);
+        }
+
+        return new TreeMap<>(map);
+    }
+
+    public Map<String, Long> getAccidentNumberOfRegion() {
+        // 행정구역별 인구순위로 내림차순
+        Map<String, Long> map = sortByPopulationOrder(new HashMap<>());
+
+        List<Accident> accidentList = accidentRepository.findAll();
+        for (Accident accident : accidentList) {
+            String[] addressParts = accident.getAddress().split(" ");
+
+            Long count = map.getOrDefault(addressParts[0], 0L);
+            map.put(addressParts[0], count + 1);
+        }
+
+        Map<String, Long> filteredMap = new HashMap<>();
+        for (Map.Entry<String, Long> entry : map.entrySet()) {
+            if (entry.getValue() != 0) {
+                filteredMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return filteredMap;
+    }
+
+    private Map<String, Long> sortByPopulationOrder(Map<String, Long> map) {
+        map.put("경기도", 0L);
+        map.put("서울특별시", 0L);
+        map.put("부산광역시", 0L);
+        map.put("경상남도", 0L);
+        map.put("인천광역시", 0L);
+        map.put("경상북도", 0L);
+        map.put("대구광역시", 0L);
+        map.put("충청남도", 0L);
+        map.put("전라남도", 0L);
+        map.put("전북특별자치도", 0L);
+        map.put("충청북도", 0L);
+        map.put("강원특별자치도", 0L);
+        map.put("대전광역시", 0L);
+        map.put("광주광역시", 0L);
+        map.put("울산광역시", 0L);
+        map.put("제주특별자치도", 0L);
+        map.put("세종특별자치도", 0L);
+
+        return map;
+    }
 
 
 //    public static HospitalResponseDto getHospitalInfo() throws Exception {
