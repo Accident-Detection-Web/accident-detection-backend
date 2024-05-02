@@ -1,12 +1,10 @@
 package com.example.accidentdetectionservice.domain.user.controller;
 
+import com.example.accidentdetectionservice.domain.user.dto.SignupMailRequestDto;
 import com.example.accidentdetectionservice.domain.user.service.SignupMailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,10 +13,9 @@ public class SignupMailController {
 
     private final SignupMailService signupMailService;
 
-    @ResponseBody
     @PostMapping("/sign-up/mail")
-    public ResponseEntity<String> mailSend(String mail) {
-        int number = signupMailService.sendMail(mail);
+    public ResponseEntity<String> mailSend(@RequestBody SignupMailRequestDto mail) {
+        int number = signupMailService.sendMail(mail.getMail());
 
         return ResponseEntity.ok().body("" + number);
     }
