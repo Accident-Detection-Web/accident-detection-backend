@@ -21,7 +21,7 @@ public class AccidentController {
 
     private final AccidentService accidentService;
 
-    @PostMapping("/receive-data")
+    @PostMapping("/accident/received-data")
     public Mono<ResponseEntity<AccidentResponseDto>> receiveData(@RequestBody AccidentRequestDto requestDto,
                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
         accidentService.sendNotifyClient(userDetails.getUser());
@@ -30,4 +30,6 @@ public class AccidentController {
             .map(ResponseEntity::ok)
             .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
+
+
 }

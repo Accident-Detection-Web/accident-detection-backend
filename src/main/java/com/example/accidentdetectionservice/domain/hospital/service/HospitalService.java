@@ -1,5 +1,6 @@
 package com.example.accidentdetectionservice.domain.hospital.service;
 
+import com.example.accidentdetectionservice.domain.hospital.dto.AllDataResponseDto;
 import com.example.accidentdetectionservice.domain.hospital.dto.HospitalResponseDto;
 import com.example.accidentdetectionservice.domain.hospital.entity.Accident;
 import com.example.accidentdetectionservice.domain.hospital.entity.Hospital;
@@ -21,6 +22,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,16 +35,17 @@ public class HospitalService {
 
     public List<HospitalResponseDto> getHospitalData(User receiver) throws Exception{
 
-        String Si = accidentRepository.findLatestLatitudeByUserId(receiver.getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저의 사고 정보(경도)가 없습니다."));
+        // 해당 유저에 해당하는 마지막으로 저장된 사고 객체 가져오기
+        Accident accident = accidentRepository.findTopByReceiverIdOrderByIdDesc(receiver.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저의 사고 정보가 없습니다."));
 
-        String Gun = accidentRepository.findLatestLatitudeByUserId(receiver.getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저의 사고 정보(위도)가 없습니다."));
+        String[] address = accident.getAddress().split(" ");
+
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=351qYfh59jJHQGLGCTf2af0is6PVkCNFKEfj2%2FdXVQKfBWFGg1%2BiSHbG6D6edWitwcgQ%2FKV6P82xpCPpM%2FD4sg%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("STAGE1","UTF-8") + "=" + URLEncoder.encode(Si, "UTF-8")); /*주소(시도)*/
-        urlBuilder.append("&" + URLEncoder.encode("STAGE2","UTF-8") + "=" + URLEncoder.encode(Gun, "UTF-8")); /*주소(시군구)*/
+        urlBuilder.append("&" + URLEncoder.encode("STAGE1","UTF-8") + "=" + URLEncoder.encode(address[0], "UTF-8")); /*주소(시도)*/
+        urlBuilder.append("&" + URLEncoder.encode("STAGE2","UTF-8") + "=" + URLEncoder.encode(address[1], "UTF-8")); /*주소(시군구)*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*목록 건수*/
         URL url = new URL(urlBuilder.toString());
@@ -54,9 +58,6 @@ public class HospitalService {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new InputSource(conn.getInputStream()));
 
-        Accident accident = accidentRepository.findTopByReceiverOrderByIdDesc(receiver).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저의 사고 정보가 없습니다.")
-        );
 
         NodeList itemList = doc.getElementsByTagName("item");
         for (int i = 0; i < itemList.getLength(); i++) {
@@ -75,17 +76,31 @@ public class HospitalService {
         }
         conn.disconnect();
 
-//        List<Hospital> hospitals = hospitalRepository.findAllByAccident(accident);
-//
-//        return new HospitalResponseDto(
-//                hospitals.stream().map(Hospital::getName).toList(),
-//                hospitals.stream().map(Hospital::getTel).toList()
-//        );
+        if (accident.getList().isEmpty()) {
+           throw new IllegalArgumentException("현재 가용 병원이 없습니다.");
+        }
 
         return hospitalRepository.findAllByAccident(accident).stream()
                 .map(hospital -> new HospitalResponseDto(hospital.getName(), hospital.getTel()))
                 .toList();
     }
+
+    public AllDataResponseDto getAllData(User user) {
+        List<Accident> accidentList = accidentRepository.findAllByReceiver(user);
+
+        return new AllDataResponseDto(accidentList.stream()
+                .map(accident -> new AllDataResponseDto.AllData(
+                        accident.getId(),
+                        accident.getDate(),
+                        accident.getList().stream().collect(Collectors.toMap(Hospital::getName, Hospital::getTel)),
+                        accident.getSeverityLevel(),
+                        accident.getSeverity()))
+                .collect(Collectors.toList()));
+
+    }
+
+
+
 
 //    public static HospitalResponseDto getHospitalInfo() throws Exception {
 //        StringBuilder hospitalInfoBuilder = new StringBuilder();
@@ -132,5 +147,4 @@ public class HospitalService {
 //        String hospitalInfo = getHospitalInfo();
 //        System.out.println(hospitalInfo);
 //    }
-
 }

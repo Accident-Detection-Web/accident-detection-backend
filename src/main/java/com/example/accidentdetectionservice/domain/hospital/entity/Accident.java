@@ -24,7 +24,7 @@ public class Accident {
     private Long id;
 
     @Column(name = "time")
-    private String time;
+    private String date;
 
     @Column(name = "latitute")
     private String latitude;
@@ -51,7 +51,7 @@ public class Accident {
 
     public Accident(String address, AccidentRequestDto requestDto, User receiver) {
         this.address = address;
-        this.time = requestDto.getTime();
+        this.date = requestDto.getDate();
         this.latitude = requestDto.getLatitude();
         this.longitude = requestDto.getLongitude();
         this.severityLevel = requestDto.getSeverityLevel();

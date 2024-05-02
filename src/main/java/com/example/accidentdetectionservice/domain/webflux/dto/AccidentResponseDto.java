@@ -22,7 +22,7 @@ public class AccidentResponseDto {
         this.latitude = requestDto.getLatitude();
         this.longitude = requestDto.getLongitude();
 //        this.address = // 위도 경도 변환 값;
-        this.time = requestDto.getTime();
+        this.time = requestDto.getDate();
         this.severityLevel = requestDto.getSeverityLevel();
         this.severity = requestDto.getSeverity();
     }
