@@ -33,12 +33,11 @@ public class AccidentService {
     @Transactional
     public MessageResponseDto processFileAndData(byte[] image, AccidentRequestDto requestDto, User user)  {
 
-        createMailEvent(requestDto, user);
+        createMailEvent(image, requestDto, user);
 
         createAccidentEvent(requestDto, user);
 
         return new MessageResponseDto("파일 및 사고 데이터 수신 성공", HttpStatus.OK.value());
-//        return Mono.just(responseDto);
     }
 
     private void createAccidentEvent(AccidentRequestDto requestDto, User user) {
@@ -51,12 +50,11 @@ public class AccidentService {
         }
     }
 
-    private void createMailEvent(AccidentRequestDto requestDto, User user) {
+    private void createMailEvent(byte[] image, AccidentRequestDto requestDto, User user) {
         try {
             String toAddress = user.getEmail();
             String subject = "[Accident Detection] 요청하신 데이터 입니다.";
             String content = "<p>안녕하세요.</p><p>" + " 병원 데이터 입니다. </p><p>감사합니다.</p>";
-//        byte[] attachPng = requestDto.getPngData().getBytes();
 
             mailRepository.save(new MailEvent(toAddress, subject, content, null, user));
         } catch (Exception e) {
