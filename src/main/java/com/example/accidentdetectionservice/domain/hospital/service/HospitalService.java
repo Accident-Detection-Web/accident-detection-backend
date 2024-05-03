@@ -2,9 +2,9 @@ package com.example.accidentdetectionservice.domain.hospital.service;
 
 import com.example.accidentdetectionservice.domain.hospital.dto.AllDataResponseDto;
 import com.example.accidentdetectionservice.domain.hospital.dto.HospitalResponseDto;
-import com.example.accidentdetectionservice.domain.hospital.entity.Accident;
+import com.example.accidentdetectionservice.domain.accident.entity.Accident;
 import com.example.accidentdetectionservice.domain.hospital.entity.Hospital;
-import com.example.accidentdetectionservice.domain.hospital.repository.AccidentRepository;
+import com.example.accidentdetectionservice.domain.accident.repository.AccidentRepository;
 import com.example.accidentdetectionservice.domain.hospital.repository.HospitalRepository;
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;

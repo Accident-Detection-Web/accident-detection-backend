@@ -1,9 +1,8 @@
-package com.example.accidentdetectionservice.domain.hospital.entity;
+package com.example.accidentdetectionservice.domain.accident.entity;
 
+import com.example.accidentdetectionservice.domain.hospital.entity.Hospital;
 import com.example.accidentdetectionservice.domain.user.entity.User;
-import com.example.accidentdetectionservice.domain.webflux.dto.AccidentRequestDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.jdi.StringReference;
+import com.example.accidentdetectionservice.domain.accident.dto.AccidentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

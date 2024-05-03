@@ -1,4 +1,4 @@
-package com.example.accidentdetectionservice.domain.webflux.service;
+package com.example.accidentdetectionservice.domain.accident.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

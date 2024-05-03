@@ -1,5 +1,6 @@
 package com.example.accidentdetectionservice.domain.hospital.entity;
 
+import com.example.accidentdetectionservice.domain.accident.entity.Accident;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

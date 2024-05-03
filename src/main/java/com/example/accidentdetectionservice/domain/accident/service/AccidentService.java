@@ -1,17 +1,18 @@
-package com.example.accidentdetectionservice.domain.webflux.service;
+package com.example.accidentdetectionservice.domain.accident.service;
 
-import com.example.accidentdetectionservice.domain.hospital.entity.Accident;
-import com.example.accidentdetectionservice.domain.hospital.repository.AccidentRepository;
+import com.example.accidentdetectionservice.domain.accident.entity.Accident;
+import com.example.accidentdetectionservice.domain.accident.repository.AccidentRepository;
 import com.example.accidentdetectionservice.domain.mail.entity.MailEvent;
 import com.example.accidentdetectionservice.domain.mail.repository.MailRepository;
 import com.example.accidentdetectionservice.domain.notify.annotation.NeedNotify;
+import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
 import com.example.accidentdetectionservice.domain.user.entity.User;
-import com.example.accidentdetectionservice.domain.webflux.dto.AccidentRequestDto;
-import com.example.accidentdetectionservice.domain.webflux.dto.AccidentResponseDto;
+import com.example.accidentdetectionservice.domain.accident.dto.AccidentRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Mono;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -30,15 +31,14 @@ public class AccidentService {
      * @return
      */
     @Transactional
-    public Mono<AccidentResponseDto> processAccidentData(AccidentRequestDto requestDto, User user)  {
+    public MessageResponseDto processFileAndData(byte[] image, AccidentRequestDto requestDto, User user)  {
 
         createMailEvent(requestDto, user);
 
         createAccidentEvent(requestDto, user);
 
-        AccidentResponseDto responseDto = new AccidentResponseDto(requestDto);
-
-        return Mono.just(responseDto);
+        return new MessageResponseDto("파일 및 사고 데이터 수신 성공", HttpStatus.OK.value());
+//        return Mono.just(responseDto);
     }
 
     private void createAccidentEvent(AccidentRequestDto requestDto, User user) {
