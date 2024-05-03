@@ -33,6 +33,8 @@ public class AccidentService {
     @Transactional
     public MessageResponseDto processFileAndData(byte[] image, AccidentRequestDto requestDto, User user)  {
 
+        sendNotifyClient(user);
+
         createMailEvent(image, requestDto, user);
 
         createAccidentEvent(requestDto, user);
