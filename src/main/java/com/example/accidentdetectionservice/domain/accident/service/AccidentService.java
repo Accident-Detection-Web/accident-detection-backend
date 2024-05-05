@@ -30,10 +30,9 @@ public class AccidentService {
      * @param user
      * @return
      */
+//    @NeedNotify
     @Transactional
     public MessageResponseDto processFileAndData(byte[] image, AccidentRequestDto requestDto, User user)  {
-
-        sendNotifyClient(user);
 
         createMailEvent(image, requestDto, user);
 
@@ -62,11 +61,6 @@ public class AccidentService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @NeedNotify
-    public User sendNotifyClient(User user){
-        return user;
     }
 
 

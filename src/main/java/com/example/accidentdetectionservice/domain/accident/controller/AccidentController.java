@@ -3,8 +3,10 @@ package com.example.accidentdetectionservice.domain.accident.controller;
 import com.example.accidentdetectionservice.domain.accident.dto.AccidentRequestDto;
 import com.example.accidentdetectionservice.domain.accident.service.AccidentService;
 import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
+import com.example.accidentdetectionservice.domain.user.entity.User;
 import com.example.accidentdetectionservice.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,8 +26,8 @@ public class AccidentController {
 
     @PostMapping("/receiving-data")
     public ResponseEntity<MessageResponseDto> processFileAndData(@RequestParam("image") MultipartFile image,
-                                                                @RequestBody AccidentRequestDto requestDto,
-                                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                   @RequestBody AccidentRequestDto requestDto,
+                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             byte[] imageBytes = image.getBytes();
 
