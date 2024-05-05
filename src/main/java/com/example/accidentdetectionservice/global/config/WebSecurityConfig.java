@@ -61,8 +61,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource configurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8080"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(
             Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
@@ -82,6 +81,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf((csrf) -> csrf.disable());
 
+        //CORS 설정
+        http.cors((cors) -> cors.configurationSource(configurationSource()));
+
         http.sessionManagement((sessionManagement) ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
@@ -93,7 +95,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/health", "/css/**", "/js/**", "/img/**", "/lib/**",
                         "/scss/**").permitAll()
                     .requestMatchers("/auth/users/**").permitAll()
-                    .requestMatchers("api/webflux/**").permitAll()
+                    .requestMatchers("/api/webflux/**").permitAll()
                     .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

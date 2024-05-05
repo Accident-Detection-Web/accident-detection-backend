@@ -26,6 +26,7 @@ public class MailEvent {
     @Column(name = "content")
     private String content;
 
+    @Lob
     @Column(name = "attach_png")
     private byte[] attachPng;
 

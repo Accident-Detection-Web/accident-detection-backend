@@ -1,6 +1,7 @@
 package com.example.accidentdetectionservice.global.security;
 
 import com.example.accidentdetectionservice.domain.user.dto.LoginRequestDto;
+import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
 import com.example.accidentdetectionservice.domain.user.entity.UserRoleEnum;
 import com.example.accidentdetectionservice.global.redis.RefreshTokenService;
 import com.example.accidentdetectionservice.global.util.jwt.JwtUtil;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -61,7 +63,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
-        HttpServletResponse response, FilterChain chain, Authentication authResult)
+                                            HttpServletResponse response, FilterChain chain, Authentication authResult)
         throws IOException, ServletException {
         log.info("로그인 성공 및 JWT 생성");
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
@@ -72,30 +74,41 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refreshToken = refreshTokenService.createRefreshToken(username, role, userKey);
         jwtUtil.addJwtToCookie(token, refreshToken, response);
 
+
+        response.setContentType("application/json; charset=UTF-8");
+        MessageResponseDto message = new MessageResponseDto("로그인 성공했습니다.", HttpStatus.OK.value());
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(message));
         /**
          * @see 구현 되지 않음
          */
-//        response.sendRedirect("/");
+        response.sendRedirect("/");
 
     }
 
 
 
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request,
-        HttpServletResponse response, AuthenticationException failed)
-        throws IOException, ServletException {
-        log.info("로그인 실패");
+        @Override
+        protected void unsuccessfulAuthentication(HttpServletRequest request,
+            HttpServletResponse response, AuthenticationException failed)
+            throws IOException, ServletException {
+            log.info("로그인 실패");
 
-        String errorMessage = "회원 정보가 일치하지 않습니다.";
-        request.getSession().setAttribute("errorMessage", errorMessage);
+    //        String errorMessage = "회원 정보가 일치하지 않습니다.";
+    //        request.getSession().setAttribute("errorMessage", errorMessage);
+    //
+    //
+    //        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
-        // redirect
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        /**
-         * @see 구현 되지 않음
-         */
-//        response.sendRedirect("/");
+            response.setStatus(401);
+            response.setContentType("application/json; charset=UTF-8");
+            MessageResponseDto message = new MessageResponseDto("로그인 실패했습니다.", HttpStatus.UNAUTHORIZED.value());
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.getWriter().write(objectMapper.writeValueAsString(message));
+            /**
+             * @see 구현 되지 않음
+             */
+            response.sendRedirect("/");
 
-    }
+        }
 }
