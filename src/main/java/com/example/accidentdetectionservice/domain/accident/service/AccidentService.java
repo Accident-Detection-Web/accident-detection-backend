@@ -8,6 +8,7 @@ import com.example.accidentdetectionservice.domain.notify.annotation.NeedNotify;
 import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import com.example.accidentdetectionservice.domain.accident.dto.AccidentRequestDto;
+import com.example.accidentdetectionservice.global.kafka.producer.notify.NotifyProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AccidentService {
     private final MailRepository mailRepository;
     private final AccidentRepository accidentRepository;
     private final ReverseGeocodingService reverseGeocodingService;
-
+    private final NotifyProducerService notifyProducerService;
 
     /**
      * @apiNote 해당 User 의 MailEvent 객체를 만든다.
@@ -33,6 +34,8 @@ public class AccidentService {
 //    @NeedNotify
     @Transactional
     public MessageResponseDto processFileAndData(byte[] image, AccidentRequestDto requestDto, User user)  {
+
+        notifyProducerService.sendAccidentDetectionNotification(user);
 
         createMailEvent(image, requestDto, user);
 
