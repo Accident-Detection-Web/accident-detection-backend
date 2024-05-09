@@ -82,7 +82,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         /**
          * @see 구현 되지 않음
          */
-        response.sendRedirect("/");
+//        response.sendRedirect("/");
 
     }
 
@@ -108,7 +108,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             /**
              * @see 구현 되지 않음
              */
-            response.sendRedirect("/");
+//            response.sendRedirect("/");
 
         }
 }

@@ -21,7 +21,7 @@ public class NotifyController {
 
     @GetMapping(value = "/subscribe", produces = "text/event-stream")
     public ResponseEntity<SseEmitter> subscribe(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId){
+                                                @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
         return ResponseEntity.ok(notifyService.subscribe(userDetails.getUser().getUsername(), lastEventId));
     }
 

@@ -5,6 +5,8 @@ import com.example.accidentdetectionservice.domain.accident.service.AccidentServ
 import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import com.example.accidentdetectionservice.global.security.UserDetailsImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +24,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class AccidentController {
 
     private final AccidentService accidentService;
+    private final ObjectMapper objectMapper;
 
-
-    @PostMapping("/receiving-data")
+    @PostMapping(value = "/receiving-data", consumes = "multipart/form-data")
     public ResponseEntity<MessageResponseDto> processFileAndData(@RequestParam("image") MultipartFile image,
-                                                   @RequestBody AccidentRequestDto requestDto,
+                                                   @RequestParam("requestDto") String requestDtoJson,
                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
+
+            AccidentRequestDto requestDto = objectMapper.readValue(requestDtoJson, AccidentRequestDto.class);
             byte[] imageBytes = image.getBytes();
 
             return ResponseEntity.ok(accidentService.processFileAndData(imageBytes, requestDto, userDetails.getUser()));

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,15 +16,16 @@ import java.net.URL;
 @Service
 @RequiredArgsConstructor
 @Slf4j(topic = "NAVER API")
+@Component
 public class ReverseGeocodingService {
 
     /**
      * @apiNote application-secret.yml 정보 가져오는 부분 refactoring 필요
      */
     @Value("${naver.client-id}")
-    private static String clientId;
+    private String clientId;
     @Value("${naver.client-secret-id")
-    private static String clientSecretId;
+    private String clientSecretId;
 
     private final ObjectMapper objectMapper;
 

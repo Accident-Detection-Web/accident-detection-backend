@@ -27,7 +27,6 @@ public class NotifyProducerService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
-    private final NotifyService notifyService;
 
 
     public void sendAccidentDetectionNotification(User receiver) {
