@@ -9,6 +9,7 @@ import com.example.accidentdetectionservice.domain.hospital.repository.HospitalR
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,6 +36,8 @@ public class HospitalService {
     private final AccidentRepository accidentRepository;
     private final HospitalRepository hospitalRepository;
 
+    @Value("${public.api.service-key}")
+    private String serviceKey;
     public List<HospitalResponseDto> getHospitalData(User receiver) throws Exception{
 
         // 해당 유저에 해당하는 마지막으로 저장된 사고 객체 가져오기

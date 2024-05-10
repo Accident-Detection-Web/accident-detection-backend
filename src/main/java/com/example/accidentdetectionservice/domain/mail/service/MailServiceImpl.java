@@ -15,9 +15,11 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class MailServiceImpl implements MailService{
 
@@ -28,6 +30,7 @@ public class MailServiceImpl implements MailService{
     @Value("${spring.mail.username}")
     private static String FROM_ADDRESS;
 
+    @Transactional
     @Override
     public void sendMail(User receiver) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
