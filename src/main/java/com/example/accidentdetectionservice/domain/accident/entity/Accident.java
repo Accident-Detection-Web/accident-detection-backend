@@ -34,11 +34,11 @@ public class Accident {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "severity_level")
-    private Long severityLevel;
+    @Column(name = "sorting")
+    private String sorting;
 
-    @Column(name = "severity")
-    private String severity;
+    @Column(name = "accuracy")
+    private String accuracy;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -53,8 +53,8 @@ public class Accident {
         this.date = requestDto.getDate();
         this.latitude = requestDto.getLatitude();
         this.longitude = requestDto.getLongitude();
-        this.severityLevel = requestDto.getSeverityLevel();
-        this.severity = requestDto.getSeverity();
+        this.sorting = requestDto.getSorting();
+        this.accuracy = requestDto.getAccuracy();
         this.receiver = receiver;
     }
 }

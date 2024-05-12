@@ -75,10 +75,10 @@ public class ReverseGeocodingService {
     /**
      * Test
      */
-    public static void main(String[] args) {
-        ReverseGeocodingService service = new ReverseGeocodingService(new ObjectMapper());
-        String address = service.getAddress(37.554520865005, 127.0806325017);
-        System.out.println(address);
-    }
+//    public static void main(String[] args) {
+//        ReverseGeocodingService service = new ReverseGeocodingService(new ObjectMapper());
+//        String address = service.getAddress(37.554520865005, 127.0806325017);
+//        System.out.println(address);
+//    }
 
 }
