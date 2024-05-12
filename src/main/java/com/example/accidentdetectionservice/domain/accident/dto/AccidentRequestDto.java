@@ -11,7 +11,7 @@ public class AccidentRequestDto {
     private String latitude; // 위도
     private String longitude; // 경도
     private String date;
-    private Long severityLevel;
-    private String severity;
+    private String sorting; // class sort
+    private String accuracy;
 
 }

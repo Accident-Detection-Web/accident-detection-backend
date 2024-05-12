@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: "classpath:application-secret.yml"
+
   datasource:
     url: jdbc:mysql://localhost:3306/capstone
     username: root
@@ -14,19 +17,6 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: inhees98@gmail.com
-    password: xxac auuo gvqe kouf
-    properties:
-      mail:
-        smtp:
-          auth: true
-          timeout: 5000
-          starttls:
-            enable: true
-
   data:
     redis:
       host: localhost
@@ -38,3 +28,11 @@ jwt:
     key: 7Iqk7YyM66W07YOA7L2U65Sp7YG065+9U3ByaW5n6rCV7J2Y7Yqc7YSw7LWc7JuQ67mI7J6F64uI64ukLg==
 
 
+springdoc:
+  swagger-ui:
+#    groups-order: DESC
+#    tags-sorter: alpha
+#    operations-sorter: method
+    path: /swagger-ui/index.html
+  api-docs:
+    path: /v1/api-docs

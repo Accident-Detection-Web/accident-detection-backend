@@ -9,6 +9,7 @@ import com.example.accidentdetectionservice.domain.hospital.repository.HospitalR
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,10 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +33,8 @@ public class HospitalService {
     private final AccidentRepository accidentRepository;
     private final HospitalRepository hospitalRepository;
 
+    @Value("${public.api.service-key}")
+    private String serviceKey;
     public List<HospitalResponseDto> getHospitalData(User receiver) throws Exception{
 
         // 해당 유저에 해당하는 마지막으로 저장된 사고 객체 가져오기
@@ -69,7 +69,7 @@ public class HospitalService {
                 String dutyName = itemElement.getElementsByTagName("dutyName").item(0).getTextContent();
                 String dutyTel3 = itemElement.getElementsByTagName("dutyTel3").item(0).getTextContent();
 
-                // 양방향 관계 
+                // 양방향 관계
                 // 병원 객체 생성 및 사고 객체에 해당 병워 정보 추가
                 Hospital hospital = new Hospital(dutyName, dutyTel3, accident);
                 accident.getList().add(hospital);
@@ -95,8 +95,8 @@ public class HospitalService {
                         accident.getId(),
                         accident.getDate(),
                         accident.getList().stream().collect(Collectors.toMap(Hospital::getName, Hospital::getTel)),
-                        accident.getSeverityLevel(),
-                        accident.getSeverity()))
+                        accident.getSorting(),
+                        accident.getAccuracy()))
                 .collect(Collectors.toList()));
 
     }
@@ -163,13 +163,13 @@ public class HospitalService {
     }
 
 
-//    public static HospitalResponseDto getHospitalInfo() throws Exception {
+//    public String getHospitalInfo() throws Exception {
 //        StringBuilder hospitalInfoBuilder = new StringBuilder();
 //
 //        String Si = "경기도";
 //        String Gun = "수원시";
 //        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire"); /*URL*/
-//        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=351qYfh59jJHQGLGCTf2af0is6PVkCNFKEfj2%2FdXVQKfBWFGg1%2BiSHbG6D6edWitwcgQ%2FKV6P82xpCPpM%2FD4sg%3D%3D"); /*Service Key*/
+//        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + serviceKey); /*Service Key*/
 //        urlBuilder.append("&" + URLEncoder.encode("STAGE1","UTF-8") + "=" + URLEncoder.encode(Si, "UTF-8")); /*주소(시도)*/
 //        urlBuilder.append("&" + URLEncoder.encode("STAGE2","UTF-8") + "=" + URLEncoder.encode(Gun, "UTF-8")); /*주소(시군구)*/
 //        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
@@ -200,12 +200,13 @@ public class HospitalService {
 //        }
 //
 //        conn.disconnect();
-//        return new HospitalResponseDto(availableHospitalName, availableHospitalTel);
-////        return hospitalInfoBuilder.toString();
+////        return new HospitalResponseDto(availableHospitalName, availableHospitalTel);
+//        return hospitalInfoBuilder.toString();
 //    }
-
+//
 //    public static void main(String[] args) throws Exception {
-//        String hospitalInfo = getHospitalInfo();
+//        HospitalService service = new HospitalService(); // HospitalService 클래스의 인스턴스 생성
+//        String hospitalInfo = service.getHospitalInfo(); // 인스턴스를 통해 getHospitalInfo 메서드 호출
 //        System.out.println(hospitalInfo);
 //    }
 }

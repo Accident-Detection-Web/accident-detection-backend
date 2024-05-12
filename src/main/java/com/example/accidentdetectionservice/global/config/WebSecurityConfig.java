@@ -95,7 +95,8 @@ public class WebSecurityConfig {
                     .requestMatchers("/", "/health", "/css/**", "/js/**", "/img/**", "/lib/**",
                         "/scss/**").permitAll()
                     .requestMatchers("/auth/users/**").permitAll()
-                    .requestMatchers("/api/webflux/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v1/api-docs/**").permitAll()
                     .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
