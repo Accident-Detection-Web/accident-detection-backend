@@ -95,8 +95,8 @@ public class HospitalService {
                         accident.getId(),
                         accident.getDate(),
                         accident.getList().stream().collect(Collectors.toMap(Hospital::getName, Hospital::getTel)),
-                        accident.getSeverityLevel(),
-                        accident.getSeverity()))
+                        accident.getSorting(),
+                        accident.getAccuracy()))
                 .collect(Collectors.toList()));
 
     }

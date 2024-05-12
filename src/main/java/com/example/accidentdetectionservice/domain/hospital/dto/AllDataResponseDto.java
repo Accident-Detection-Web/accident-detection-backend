@@ -15,9 +15,9 @@ public class AllDataResponseDto {
 
     private List<AllData> allDataList = new ArrayList<>();
 
-    public void addAllData(Long id, String date, Map<String, String> availableHospital, Long severityLevel,
-                           String severity) {
-        AllData allData = new AllData(id, date, availableHospital, severityLevel, severity);
+    public void addAllData(Long id, String date, Map<String, String> availableHospital, String sorting,
+                           String accuracy) {
+        AllData allData = new AllData(id, date, availableHospital, sorting, accuracy);
         allDataList.add(allData);
     }
     @AllArgsConstructor
@@ -25,7 +25,7 @@ public class AllDataResponseDto {
         private Long id;
         private String date;
         private Map<String, String> availableHospital;
-        private Long severityLevel;
-        private String severity;
+        private String sorting;
+        private String accuracy;
     }
 }
