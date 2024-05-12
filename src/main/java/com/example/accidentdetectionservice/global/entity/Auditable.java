@@ -14,11 +14,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class) // Spring Data JPA 사용시
 public class Auditable {
 
-    @Column(nullable = false, updatable = false)
     @CreatedDate
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

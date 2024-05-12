@@ -6,14 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@Service
 @RequiredArgsConstructor
 @Slf4j(topic = "NAVER API")
 @Component
@@ -22,10 +20,10 @@ public class ReverseGeocodingService {
     /**
      * @apiNote application-secret.yml 정보 가져오는 부분 refactoring 필요
      */
-    @Value("${naver.client-id}")
-    private String clientId;
-    @Value("${naver.client-secret-id")
-    private String clientSecretId;
+    @Value("${naver.client-key}")
+    private String clientKey;
+    @Value("${naver.client-secret-key}")
+    private String clientSecretKey;
 
     private final ObjectMapper objectMapper;
 
@@ -77,10 +75,10 @@ public class ReverseGeocodingService {
     /**
      * Test
      */
-//    public static void main(String[] args) {
-//        ReverseGeocodingService service = new ReverseGeocodingService(new ObjectMapper());
-//        String address = service.getAddress(37.554520865005, 127.0806325017);
-//        System.out.println(address);
-//    }
+    public static void main(String[] args) {
+        ReverseGeocodingService service = new ReverseGeocodingService(new ObjectMapper());
+        String address = service.getAddress(37.554520865005, 127.0806325017);
+        System.out.println(address);
+    }
 
 }

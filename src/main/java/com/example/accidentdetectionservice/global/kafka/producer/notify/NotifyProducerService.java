@@ -33,6 +33,7 @@ public class NotifyProducerService {
 
         try {
             String receiverMessage = objectMapper.writeValueAsString(receiver); // <- 흠
+            log.info("Attempting to serialize User: {}", receiver);
             CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("notify-1",
                     receiverMessage);
             future.whenComplete((result, ex) -> {

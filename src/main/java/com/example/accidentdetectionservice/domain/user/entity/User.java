@@ -3,6 +3,7 @@ package com.example.accidentdetectionservice.domain.user.entity;
 import com.example.accidentdetectionservice.domain.notify.aop.proxy.NotifyInfo;
 import com.example.accidentdetectionservice.domain.notify.entity.Notify;
 import com.example.accidentdetectionservice.domain.notify.entity.Notify.NotificationType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,6 +45,7 @@ public class User implements NotifyInfo {
         this.role = role;
     }
 
+    @JsonIgnore
     @Override
     public User getReceiver() {
         return this;

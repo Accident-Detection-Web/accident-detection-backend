@@ -17,19 +17,6 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: inhees98@gmail.com
-    password: xxac auuo gvqe kouf
-    properties:
-      mail:
-        smtp:
-          auth: true
-          timeout: 5000
-          starttls:
-            enable: true
-
   data:
     redis:
       host: localhost
