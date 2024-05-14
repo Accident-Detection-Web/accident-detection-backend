@@ -40,6 +40,10 @@ public class Accident {
     @Column(name = "accuracy")
     private String accuracy;
 
+    @Lob
+    @Column(name = "attach_png", columnDefinition = "BLOB")
+    private byte[] attachPng;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -48,7 +52,7 @@ public class Accident {
     @OneToMany(mappedBy = "accident")
     private List<Hospital> list = new ArrayList<>();
 
-    public Accident(String address, AccidentRequestDto requestDto, User receiver) {
+    public Accident(byte[] attachPng, String address, AccidentRequestDto requestDto, User receiver) {
         this.address = address;
         this.date = requestDto.getDate();
         this.latitude = requestDto.getLatitude();
@@ -56,5 +60,6 @@ public class Accident {
         this.sorting = requestDto.getSorting();
         this.accuracy = requestDto.getAccuracy();
         this.receiver = receiver;
+        this.attachPng = attachPng;
     }
 }

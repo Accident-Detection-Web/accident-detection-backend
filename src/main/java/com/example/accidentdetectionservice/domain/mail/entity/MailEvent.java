@@ -27,7 +27,7 @@ public class MailEvent {
     private String content;
 
     @Lob
-    @Column(name = "attach_png")
+    @Column(name = "attach_png", columnDefinition = "BLOB")
     private byte[] attachPng;
 
     @ManyToOne
