@@ -34,6 +34,7 @@ public class AccidentController {
 
             return ResponseEntity.ok(accidentService.processFileAndData(imageBytes, requestDto, userDetails.getUser()));
         } catch (Exception e) {
+            // GlobalExceptionHandler
             throw new IllegalArgumentException("Error Processing the image");
         }
     }
