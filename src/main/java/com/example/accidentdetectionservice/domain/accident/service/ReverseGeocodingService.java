@@ -41,8 +41,9 @@ public class ReverseGeocodingService {
             URL url = new URL(requestUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-NCP-APIGW-API-KEY-ID", "4nqjg17mp4");
-            conn.setRequestProperty("X-NCP-APIGW-API-KEY", "6soiuZVRnR7eETaDKQmIf5x9ktGr9D8TnvaavJOg");
+
+            conn.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientKey);
+            conn.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecretKey);
 
             int responseCode = conn.getResponseCode();
             BufferedReader br = new BufferedReader(new InputStreamReader(
