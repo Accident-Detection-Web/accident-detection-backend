@@ -23,6 +23,16 @@ public class AccidentController {
     private final AccidentService accidentService;
     private final ObjectMapper objectMapper;
 
+    /**
+     * @apiNote 해당 api 실행이 되면 프론트 측에서는
+     * 1. HospitalController 의 getHospitalData API 실행
+     * 2. MailController 의 createMailEventEntity API 실행
+     * 3. MailController 의 sendMail API 실행
+     * @param image
+     * @param requestDtoJson
+     * @param userDetails
+     * @return
+     */
     @PostMapping(value = "/receiving-data", consumes = "multipart/form-data")
     public ResponseEntity<MessageResponseDto> processFileAndData(@RequestParam("image") MultipartFile image,
                                                    @RequestParam("requestDto") String requestDtoJson,
