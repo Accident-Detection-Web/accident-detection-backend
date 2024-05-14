@@ -22,6 +22,11 @@ public class HospitalController {
 
     private final HospitalService hospitalService;
 
+    /**
+     * @apiNote 가용 가능한 실시간 병원 데이터 조회 메서드
+     * @param userDetails
+     * @return
+     */
     @GetMapping("/open-data")
     public ResponseEntity<List<HospitalResponseDto>> getHospitalData(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -31,8 +36,13 @@ public class HospitalController {
         }
     }
 
+    /**
+     * @apiNote 해당 유저의 모든 사고 정보
+     * @param userDetails
+     * @return
+     */
     @GetMapping("/accident/combination")
-    public ResponseEntity<AllDataResponseDto> getAllData(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<List<AllDataResponseDto>> getAllData(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             return ResponseEntity.ok(hospitalService.getAllData(userDetails.getUser()));
         } catch (Exception e) {
@@ -40,6 +50,10 @@ public class HospitalController {
         }
     }
 
+    /**
+     * @apiNote 모든 유저의 년도 및 월별 사고 횟수
+     * @return
+     */
     @GetMapping("/accident/statistics/month")
     public ResponseEntity<Map<String,Long>> getAccidentNumberOfMonth() {
         try {
@@ -49,7 +63,10 @@ public class HospitalController {
         }
     }
 
-
+    /**
+     * @apiNote 모든 유저의 지역별 사고 횟수 (지역별 인구 순위로 저장)
+     * @return
+     */
     @GetMapping("/accident/statistics/region")
     public ResponseEntity<Map<String, Long>> getAccidentNumberOfRegion(){
         try {
