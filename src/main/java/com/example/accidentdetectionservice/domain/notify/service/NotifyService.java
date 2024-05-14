@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Transactional(readOnly = true)
 public class NotifyService {
 
-    private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
+    private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60 * 24;
 
     private final EmitterRepository emitterRepository;
     private final NotifyRepository notifyRepository;

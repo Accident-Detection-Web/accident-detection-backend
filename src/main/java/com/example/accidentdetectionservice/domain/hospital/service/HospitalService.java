@@ -87,18 +87,17 @@ public class HospitalService {
                 .toList();
     }
 
-    public AllDataResponseDto getAllData(User user) {
+    public List<AllDataResponseDto> getAllData(User user) {
         List<Accident> accidentList = accidentRepository.findAllByReceiver(user);
 
-        return new AllDataResponseDto(accidentList.stream()
-                .map(accident -> new AllDataResponseDto.AllData(
+        return accidentList.stream()
+                .map(accident -> new AllDataResponseDto(
                         accident.getId(),
                         accident.getDate(),
                         accident.getList().stream().collect(Collectors.toMap(Hospital::getName, Hospital::getTel)),
                         accident.getSorting(),
                         accident.getAccuracy()))
-                .collect(Collectors.toList()));
-
+                .collect(Collectors.toList());
     }
 
     public Map<String, Long> getAccidentNumberOfMonth() {
@@ -120,7 +119,7 @@ public class HospitalService {
 
     public Map<String, Long> getAccidentNumberOfRegion() {
         // 행정구역별 인구순위로 내림차순
-        Map<String, Long> map = sortByPopulationOrder(new HashMap<>());
+        Map<String, Long> map = sortByPopulationOrder(new LinkedHashMap<>());
 
         List<Accident> accidentList = accidentRepository.findAll();
         for (Accident accident : accidentList) {
@@ -130,7 +129,7 @@ public class HospitalService {
             map.put(addressParts[0], count + 1);
         }
 
-        Map<String, Long> filteredMap = new HashMap<>();
+        Map<String, Long> filteredMap = new LinkedHashMap<>();
         for (Map.Entry<String, Long> entry : map.entrySet()) {
             if (entry.getValue() != 0) {
                 filteredMap.put(entry.getKey(), entry.getValue());

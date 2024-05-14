@@ -23,7 +23,7 @@ public class Accident {
     private Long id;
 
     @Column(name = "time")
-    private String date;
+    private String date; // 2024-02-14 14:00:00
 
     @Column(name = "latitute")
     private String latitude;
