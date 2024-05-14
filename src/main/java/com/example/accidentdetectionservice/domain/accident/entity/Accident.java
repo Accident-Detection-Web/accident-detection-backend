@@ -41,7 +41,7 @@ public class Accident {
     private String accuracy;
 
     @Lob
-    @Column(name = "attach_png")
+    @Column(name = "attach_png", columnDefinition = "BLOB")
     private byte[] attachPng;
 
     @ManyToOne
