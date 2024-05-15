@@ -12,6 +12,8 @@ import com.example.accidentdetectionservice.domain.notify.repository.NotifyRepos
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import java.io.IOException;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,10 +63,13 @@ public class NotifyService {
 
     private void sendNotification(SseEmitter emitter, String eventId, String emitterId, Object data) {
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonData = objectMapper.writeValueAsString(data);
+
             emitter.send(SseEmitter.event()
                 .id(eventId)
                 .name("sse")
-                .data(data)
+                .data(jsonData)
             );
         } catch (IOException exception) {
             emitterRepository.deleteById(emitterId);
