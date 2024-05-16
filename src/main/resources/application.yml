@@ -3,7 +3,7 @@ spring:
     import: "classpath:application-secret.yml"
 
   datasource:
-    url: jdbc:mysql://localhost:3306/capstone
+    url: jdbc:mysql://3.38.60.73:3306/capstone
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
