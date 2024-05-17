@@ -26,8 +26,8 @@ public class MailController {
         try{
 
             return ResponseEntity.ok(mailService.createMailEventEntity(userDetails.getUser()));
-        } catch (Exception e){
-            throw new RuntimeException("Failed to create mailEvent Entity");
+        } catch (Exception exception){
+            throw new RuntimeException("Failed to create mail_event Entity" + exception);
         }
     }
 
@@ -38,8 +38,8 @@ public class MailController {
             mailService.sendMail(userDetails.getUser());
 
             return ResponseEntity.ok().build();
-        } catch (Exception e){
-            throw new RuntimeException("Failed to send email");
+        } catch (Exception exception){
+            throw new RuntimeException("Failed to send email" + exception);
         }
 
     }

@@ -31,8 +31,8 @@ public class HospitalController {
     public ResponseEntity<List<HospitalResponseDto>> getHospitalData(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             return ResponseEntity.ok(hospitalService.getHospitalData(userDetails.getUser()));
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to get hospital open data");
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
         }
     }
 

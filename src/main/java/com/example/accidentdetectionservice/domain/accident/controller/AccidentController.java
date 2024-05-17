@@ -43,10 +43,9 @@ public class AccidentController {
             byte[] imageBytes = image.getBytes();
 
             return ResponseEntity.ok(accidentService.processFileAndData(imageBytes, requestDto, userDetails.getUser()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
             // GlobalExceptionHandler
-            throw new IllegalArgumentException(e.getMessage());
+            throw new IllegalArgumentException(exception);
         }
     }
 
