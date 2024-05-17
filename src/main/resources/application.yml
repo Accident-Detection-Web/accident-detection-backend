@@ -17,6 +17,7 @@ spring:
   data:
     redis:
       host: redis-container
+#      host: localhost
       port: '6379'
     type: redis
 
@@ -31,6 +32,15 @@ spring:
           timeout: 5000
           starttls:
             enable: true
+
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+  server:
+    tomcat:
+      max-swallow-size: 15MB
+      max-http-post-size: 15MB
 
 jwt:
   secret:
