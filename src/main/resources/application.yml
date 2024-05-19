@@ -17,7 +17,7 @@ spring:
   data:
     redis:
       host: redis-container
-#      host: localhost
+      #      host: localhost
       port: '6379'
     type: redis
 
@@ -49,9 +49,9 @@ jwt:
 
 springdoc:
   swagger-ui:
-#    groups-order: DESC
-#    tags-sorter: alpha
-#    operations-sorter: method
+    #    groups-order: DESC
+    #    tags-sorter: alpha
+    #    operations-sorter: method
     path: /swagger-ui/index.html
   api-docs:
     path: /v1/api-docs
