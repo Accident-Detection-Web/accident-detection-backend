@@ -96,6 +96,7 @@ public class JwtUtil {
 
             // access 토큰에 대한 ResponseCookie 생성
             ResponseCookie accessCookie = ResponseCookie.from(AUTHORIZATION_HEADER, token)
+                    .domain("https://capstone-2024-frontend-only.vercel.app")
                     .path("/")
                     .sameSite("None")
                     .httpOnly(false) // 필요에 따라 조정
@@ -104,6 +105,7 @@ public class JwtUtil {
 
             // refresh 토큰에 대한 ResponseCookie 생성
             ResponseCookie refreshCookie = ResponseCookie.from(REFRESH_HEADER, refreshToken)
+                    .domain("https://capstone-2024-frontend-only.vercel.app")
                     .path("/")
                     .sameSite("None")
                     .httpOnly(false) // 필요에 따라 조정
