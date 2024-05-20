@@ -99,7 +99,7 @@ public class WebSecurityConfig {
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                     .permitAll()
                     .requestMatchers("/", "/health", "/css/**", "/js/**", "/img/**", "/lib/**",
-                        "/scss/**").permitAll()
+                        "/scss/**", "/favicon.ico").permitAll()
                     .requestMatchers("/auth/users/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v1/api-docs/**").permitAll()

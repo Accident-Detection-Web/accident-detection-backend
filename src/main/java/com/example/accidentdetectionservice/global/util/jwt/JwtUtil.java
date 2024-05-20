@@ -29,6 +29,7 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -93,17 +94,39 @@ public class JwtUtil {
             token = URLEncoder.encode(token, "utf-8")
                 .replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 
-            //access 토큰을 쿠키에 설정
-            Cookie accessCookie = new Cookie(AUTHORIZATION_HEADER, token); // Name-Value
-            accessCookie.setPath("/");
+            // access 토큰에 대한 ResponseCookie 생성
+            ResponseCookie accessCookie = ResponseCookie.from(AUTHORIZATION_HEADER, token)
+                    .path("/")
+                    .sameSite("None")
+                    .httpOnly(false) // 필요에 따라 조정
+                    .secure(true) // HTTPS 사용 시 설정
+                    .build();
 
-            //refresh 토큰을 쿠키에 설정
-            Cookie refreshCookie = new Cookie(REFRESH_HEADER, refreshToken);
-            refreshCookie.setPath("/"); // 쿠키 경로 설정 (필요에 따라 변경 가능)
+            // refresh 토큰에 대한 ResponseCookie 생성
+            ResponseCookie refreshCookie = ResponseCookie.from(REFRESH_HEADER, refreshToken)
+                    .path("/")
+                    .sameSite("None")
+                    .httpOnly(false) // 필요에 따라 조정
+                    .secure(true) // HTTPS 사용 시 설정
+                    .build();
 
-            //Response 객체에 Cookie 추가
-            res.addCookie(accessCookie);
-            res.addCookie(refreshCookie);
+            // Response 헤더에 쿠키 추가
+            res.addHeader("Set-Cookie", accessCookie.toString());
+            res.addHeader("Set-Cookie", refreshCookie.toString());
+
+//            //access 토큰을 쿠키에 설정
+//            Cookie accessCookie = new Cookie(AUTHORIZATION_HEADER, token); // Name-Value
+//            accessCookie.setPath("/");
+//            accessCookie.setSecure(true); // HTTPS 사용 시 설정
+//
+//            //refresh 토큰을 쿠키에 설정
+//            Cookie refreshCookie = new Cookie(REFRESH_HEADER, refreshToken);
+//            refreshCookie.setPath("/"); // 쿠키 경로 설정 (필요에 따라 변경 가능)
+//            refreshCookie.setSecure(true); // HTTPS 사용 시 설정
+//
+//            //Response 객체에 Cookie 추가
+//            res.addCookie(accessCookie);
+//            res.addCookie(refreshCookie);
 
         } catch (UnsupportedEncodingException e) {
             log.error(e.toString());
