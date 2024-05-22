@@ -118,46 +118,8 @@ public class JwtUtil {
             res.setHeader("Set-Cookie", accessCookie.toString());
             res.addHeader("Set-Cookie", refreshCookie.toString());
 
-
-//            // access 토큰에 대한 쿠키 설정
-//            Cookie accessCookie = new Cookie(AUTHORIZATION_HEADER, token);
-//            accessCookie.setDomain("capstone-2024-frontend-only.vercel.app");
-//            accessCookie.setPath("/");
-//            accessCookie.setHttpOnly(false); // 클라이언트 측 JavaScript에서 접근 가능하도록 설정
-//            accessCookie.setSecure(true); // HTTPS 사용 시 설정
-//            accessCookie.setMaxAge(60 * 60 * 24); // 1일
-//
-//            // refresh 토큰에 대한 쿠키 설정
-//            Cookie refreshCookie = new Cookie(REFRESH_HEADER, refreshToken);
-//            refreshCookie.setDomain("capstone-2024-frontend-only.vercel.app");
-//            refreshCookie.setPath("/");
-//            refreshCookie.setHttpOnly(false); // 클라이언트 측 JavaScript에서 접근 가능하도록 설정
-//            refreshCookie.setSecure(true); // HTTPS 사용 시 설정
-//            refreshCookie.setMaxAge(60 * 60 * 24 * 30); // 30일
-//
-//            // Response 객체에 쿠키 추가
-//            res.addCookie(accessCookie);
-//            res.addCookie(refreshCookie);
-//
-//            // SameSite 속성 추가
-//            addSameSiteCookieAttribute(res);
-
-
         } catch (UnsupportedEncodingException e) {
             log.error(e.toString());
-        }
-    }
-
-    public void addSameSiteCookieAttribute(HttpServletResponse response) {
-        Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
-        boolean firstHeader = true;
-        for (String header : headers) {
-            if (firstHeader) {
-                response.setHeader(HttpHeaders.SET_COOKIE, String.format("%s; SameSite=None", header));
-                firstHeader = false;
-            } else {
-                response.addHeader(HttpHeaders.SET_COOKIE, String.format("%s; SameSite=None", header));
-            }
         }
     }
 
@@ -209,7 +171,9 @@ public class JwtUtil {
                 String newRefreshToken = refreshTokenService.refreshTokenRotation(username, role,
                     refreshExpireTime, key);
 
-                addJwtToCookie(accessToken, newRefreshToken, res);
+//                addJwtToCookie(accessToken, newRefreshToken, res);
+                res.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+                res.addHeader(JwtUtil.REFRESH_HEADER, newRefreshToken);
 
                 //Bearer 제거
                 accessToken = substringToken(accessToken);
@@ -257,6 +221,15 @@ public class JwtUtil {
                     return cookie.getValue();
                 }
             }
+        }
+        return null;
+    }
+
+    // header 에서 JWT 가져오기
+    public String getJwtFromHeader(HttpServletRequest req, String token) {
+        String bearerToken = req.getHeader(token);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7);
         }
         return null;
     }

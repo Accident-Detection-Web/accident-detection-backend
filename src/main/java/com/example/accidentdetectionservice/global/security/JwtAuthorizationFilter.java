@@ -38,10 +38,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // access token value
-        String accessTokenValue = jwtUtil.getTokenFromRequest(req);
-        // refresh token value
-        String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
+//        // access token value
+//        String accessTokenValue = jwtUtil.getTokenFromRequest(req);
+//        // refresh token value
+//        String refreshTokenValue = jwtUtil.getRefreshTokenFromRequest(req);
+
+        String accessTokenValue = jwtUtil.getJwtFromHeader(req, JwtUtil.AUTHORIZATION_HEADER);
+        String refreshTokenValue = req.getHeader(JwtUtil.REFRESH_HEADER);
 
         if (StringUtils.hasText(accessTokenValue)) {
             // JWT 토큰 substring

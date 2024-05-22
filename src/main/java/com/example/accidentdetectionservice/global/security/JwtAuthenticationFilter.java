@@ -73,7 +73,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = jwtUtil.createToken(username, role,userKey);
         String refreshToken = refreshTokenService.createRefreshToken(username, role, userKey);
 
-        jwtUtil.addJwtToCookie(accessToken, refreshToken, response);
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+        response.addHeader(JwtUtil.REFRESH_HEADER, refreshToken);
+
+//        jwtUtil.addJwtToCookie(accessToken, refreshToken, response);
 
         response.setContentType("application/json; charset=UTF-8");
         MessageResponseDto message = new MessageResponseDto("로그인 성공했습니다.", HttpStatus.OK.value());
