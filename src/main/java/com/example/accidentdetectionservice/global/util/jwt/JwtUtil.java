@@ -25,10 +25,12 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -96,7 +98,7 @@ public class JwtUtil {
 
             // access 토큰에 대한 ResponseCookie 생성
             ResponseCookie accessCookie = ResponseCookie.from(AUTHORIZATION_HEADER, token)
-                    .domain("https://capstone-2024-frontend-only.vercel.app")
+                    .domain("capstone-2024-frontend-only.vercel.app")
                     .path("/")
                     .sameSite("None")
                     .httpOnly(false) // 필요에 따라 조정
@@ -105,7 +107,7 @@ public class JwtUtil {
 
             // refresh 토큰에 대한 ResponseCookie 생성
             ResponseCookie refreshCookie = ResponseCookie.from(REFRESH_HEADER, refreshToken)
-                    .domain("https://capstone-2024-frontend-only.vercel.app")
+                    .domain("capstone-2024-frontend-only.vercel.app")
                     .path("/")
                     .sameSite("None")
                     .httpOnly(false) // 필요에 따라 조정
@@ -113,25 +115,49 @@ public class JwtUtil {
                     .build();
 
             // Response 헤더에 쿠키 추가
-            res.addHeader("Set-Cookie", accessCookie.toString());
+            res.setHeader("Set-Cookie", accessCookie.toString());
             res.addHeader("Set-Cookie", refreshCookie.toString());
 
-//            //access 토큰을 쿠키에 설정
-//            Cookie accessCookie = new Cookie(AUTHORIZATION_HEADER, token); // Name-Value
+
+//            // access 토큰에 대한 쿠키 설정
+//            Cookie accessCookie = new Cookie(AUTHORIZATION_HEADER, token);
+//            accessCookie.setDomain("capstone-2024-frontend-only.vercel.app");
 //            accessCookie.setPath("/");
+//            accessCookie.setHttpOnly(false); // 클라이언트 측 JavaScript에서 접근 가능하도록 설정
 //            accessCookie.setSecure(true); // HTTPS 사용 시 설정
+//            accessCookie.setMaxAge(60 * 60 * 24); // 1일
 //
-//            //refresh 토큰을 쿠키에 설정
+//            // refresh 토큰에 대한 쿠키 설정
 //            Cookie refreshCookie = new Cookie(REFRESH_HEADER, refreshToken);
-//            refreshCookie.setPath("/"); // 쿠키 경로 설정 (필요에 따라 변경 가능)
+//            refreshCookie.setDomain("capstone-2024-frontend-only.vercel.app");
+//            refreshCookie.setPath("/");
+//            refreshCookie.setHttpOnly(false); // 클라이언트 측 JavaScript에서 접근 가능하도록 설정
 //            refreshCookie.setSecure(true); // HTTPS 사용 시 설정
+//            refreshCookie.setMaxAge(60 * 60 * 24 * 30); // 30일
 //
-//            //Response 객체에 Cookie 추가
+//            // Response 객체에 쿠키 추가
 //            res.addCookie(accessCookie);
 //            res.addCookie(refreshCookie);
+//
+//            // SameSite 속성 추가
+//            addSameSiteCookieAttribute(res);
+
 
         } catch (UnsupportedEncodingException e) {
             log.error(e.toString());
+        }
+    }
+
+    public void addSameSiteCookieAttribute(HttpServletResponse response) {
+        Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
+        boolean firstHeader = true;
+        for (String header : headers) {
+            if (firstHeader) {
+                response.setHeader(HttpHeaders.SET_COOKIE, String.format("%s; SameSite=None", header));
+                firstHeader = false;
+            } else {
+                response.addHeader(HttpHeaders.SET_COOKIE, String.format("%s; SameSite=None", header));
+            }
         }
     }
 

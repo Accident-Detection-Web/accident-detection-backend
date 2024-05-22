@@ -30,8 +30,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
             FilterChain filterChain) throws ServletException, IOException {
         if (req.getRequestURI().startsWith("/auth/users/sign") ||
-            req.getRequestURI().equals("/") ||
-            req.getRequestURI().equals("/auth/users/sign-in")) {
+            req.getRequestURI().equals("/")) {
 
 
             log.info("Pass Authorization : " + req.getRequestURI());
