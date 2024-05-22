@@ -69,11 +69,15 @@ public class WebSecurityConfig {
                 "https://capstone-2024-frontend-only.vercel.app",
                 "https://backend-capstone.site"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(
-            Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
-                "Cache-Control", "Content-Type"));
-        configuration.setExposedHeaders(
-            Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER));
+//        configuration.setAllowedHeaders(
+//            Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
+//                "Cache-Control", "Content-Type"));
+//        configuration.setExposedHeaders(
+//            Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER));
+        configuration.setAllowedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
+            "Cache-Control", "Content-Type","Temporary_Authorization"));
+        configuration.setExposedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER
+            ,"Temporary_Authorization"));
         configuration.setMaxAge(1800L);
         configuration.setAllowCredentials(true);
 
