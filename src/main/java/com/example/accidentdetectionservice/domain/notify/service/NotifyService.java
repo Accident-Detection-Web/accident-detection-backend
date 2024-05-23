@@ -15,6 +15,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class NotifyService {
 
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60 * 24;
@@ -45,6 +47,8 @@ public class NotifyService {
         if (hasLostData(lastEventId)) {
             sendLostData(lastEventId, username, emitterId, emitter);
         }
+        // 주기적인 더미 이벤트 전송
+        sendPeriodicDummyEvent(emitter, username);
 
         return emitter;
     }
@@ -63,15 +67,16 @@ public class NotifyService {
 
     private void sendNotification(SseEmitter emitter, String eventId, String emitterId, Object data) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonData = objectMapper.writeValueAsString(data);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            String jsonData = objectMapper.writeValueAsString(data);
 
             emitter.send(SseEmitter.event()
                 .id(eventId)
                 .name("sse")
-                .data(jsonData)
+                .data(data)
             );
         } catch (IOException exception) {
+            log.error("Error sendNotification = {}", exception.toString());
             emitterRepository.deleteById(emitterId);
         }
     }
@@ -106,5 +111,23 @@ public class NotifyService {
             .url(url)
             .isRead(false)
             .build();
+    }
+
+    private void sendPeriodicDummyEvent(SseEmitter emitter, String username) {
+        Runnable runnable = () -> {
+            while (true) {
+                try {
+                    Thread.sleep(30000 * 2 * 60); // 30초마다 더미 이벤트 전송
+                    sendNotification(emitter, makeTimeIncludeId(username), makeTimeIncludeId(username), "Dummy event");
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (Exception e) {
+                    log.error(e.toString());
+                    break;
+                }
+            }
+        };
+        new Thread(runnable).start();
     }
 }

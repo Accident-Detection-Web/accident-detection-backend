@@ -30,7 +30,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
             FilterChain filterChain) throws ServletException, IOException {
         if (req.getRequestURI().startsWith("/auth/users/sign") ||
-            req.getRequestURI().equals("/")) {
+            req.getRequestURI().equals("/")
+        ) {
 
 
             log.info("Pass Authorization : " + req.getRequestURI());
@@ -46,9 +47,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String accessTokenValue = jwtUtil.getJwtFromHeader(req, JwtUtil.AUTHORIZATION_HEADER);
         String refreshTokenValue = req.getHeader(JwtUtil.REFRESH_HEADER);
 
+        log.info("accessTokenValue = {}", accessTokenValue);
+        log.info("refreshTokenValue = {}", refreshTokenValue);
+
         if (StringUtils.hasText(accessTokenValue)) {
             // JWT 토큰 substring
-            accessTokenValue = jwtUtil.substringToken(accessTokenValue);
+//            accessTokenValue = jwtUtil.substringToken(accessTokenValue);
 
             // access 토큰이 유효하면 그대로 반환 -> validateToken
             // 만료되어 refresh 토큰을 통해 반환되면 새로운 토큰 발급 -> validateToken

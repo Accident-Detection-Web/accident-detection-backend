@@ -69,7 +69,6 @@ public class WebSecurityConfig {
                 "https://capstone-2024-frontend-only.vercel.app",
                 "https://backend-capstone.site"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 헤더 허용
         configuration.setAllowedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
             "Cache-Control", "Content-Type","Temporary_Authorization"));
         configuration.setExposedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER
@@ -104,6 +103,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/v1/api-docs/**").permitAll()
                     .requestMatchers("/api/accident/receiving-data").permitAll()
+                    .requestMatchers("/api/notify/subscribe").permitAll()
                     .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
