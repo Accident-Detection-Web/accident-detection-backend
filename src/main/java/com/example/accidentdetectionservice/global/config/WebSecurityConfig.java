@@ -67,7 +67,8 @@ public class WebSecurityConfig {
                 "http://localhost:8081",
                 "http://3.38.60.73:8080",
                 "https://capstone-2024-frontend-only.vercel.app",
-                "https://backend-capstone.site"));
+                "https://backend-capstone.site",
+                "http://my-front-app.ap-northeast-2.elasticbeanstalk.com"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
             "Cache-Control", "Content-Type","Temporary_Authorization"));
