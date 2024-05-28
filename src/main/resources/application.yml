@@ -1,6 +1,6 @@
 spring:
-#  profiles:
-#    active: docker
+  profiles:
+    active: docker
 
 #  config:
 #    import: "file:/app/config/application-secret.yml"
