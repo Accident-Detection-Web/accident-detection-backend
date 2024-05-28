@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,9 +30,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class NotifyService {
 
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60 * 24;
+    private static final Long HEARTBEAT_INTERVAL = 30L * 1000; // 30 seconds
 
     private final EmitterRepository emitterRepository;
     private final NotifyRepository notifyRepository;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Transactional
     public SseEmitter subscribe(String username, String lastEventId) {
@@ -67,13 +72,10 @@ public class NotifyService {
 
     private void sendNotification(SseEmitter emitter, String eventId, String emitterId, Object data) {
         try {
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            String jsonData = objectMapper.writeValueAsString(data);
-
-            emitter.send(SseEmitter.event()
-                .id(eventId)
-                .name("sse")
-                .data(data)
+                emitter.send(SseEmitter.event()
+                    .id(eventId)
+                    .name("sse")
+                    .data(data)
             );
         } catch (IOException exception) {
             log.error("Error sendNotification = {}", exception.toString());
@@ -117,7 +119,7 @@ public class NotifyService {
         Runnable runnable = () -> {
             while (true) {
                 try {
-                    Thread.sleep(30000 * 2 * 60); // 30초마다 더미 이벤트 전송
+                    Thread.sleep(30000); // 30초마다 더미 이벤트 전송
                     sendNotification(emitter, makeTimeIncludeId(username), makeTimeIncludeId(username), "Dummy event");
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -129,5 +131,18 @@ public class NotifyService {
             }
         };
         new Thread(runnable).start();
+    }
+
+    private void startHeartbeat(SseEmitter emitter, String username, String emitterId) {
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                String heartbeatEventId = makeTimeIncludeId(username);
+                sendNotification(emitter, heartbeatEventId, emitterId, "Heartbeat");
+            } catch (Exception e) {
+                // 예외 처리 필요 시 추가
+                emitter.completeWithError(e);
+                scheduler.shutdown();
+            }
+        }, HEARTBEAT_INTERVAL, HEARTBEAT_INTERVAL, TimeUnit.MILLISECONDS);
     }
 }
