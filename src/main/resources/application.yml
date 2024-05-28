@@ -1,9 +1,11 @@
 spring:
-  profiles:
-    active: docker
+#  profiles:
+#    active: docker
 
   config:
-    import: "classpath:application-secret.yml"
+    import: "file:/app/config/application-secret.yml"
+#    import: "classpath:application-secret.yml"
+
 
   jpa:
     hibernate:
