@@ -4,8 +4,8 @@ services:
   spring-app:
     image: inheecho/test-v6  # Spring Boot 애플리케이션 이미지
     container_name: spring-app-test
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8080:8080"
     networks:
