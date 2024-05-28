@@ -13,8 +13,7 @@ COPY ${JAR_FILE} app.jar
 #COPY build/libs/*.jar app.jar
 
 # 설정 파일 복사
-#COPY src/main/resources/application.yml application.yml
-#COPY src/main/resources/application-secret.yml application-secret.yml
-
+COPY src/main/resources/application.yml /app/application.yml
+COPY src/main/resources/application-secret.yml /app/application-secret.yml
 # 실행 명령어
 ENTRYPOINT ["java", "-jar", "-Duser.timezone=Asia/Seoul", "-Dspring.profiles.active=docker", "/app.jar"]
