@@ -2,9 +2,8 @@ spring:
   profiles:
     active: docker
 
-#  config:
-#    import: "file:/app/config/application-secret.yml"
-#    import: "classpath:application-secret.yml"
+  config:
+    import: "classpath:application-secret.yml"
 
   jpa:
     hibernate:
@@ -34,16 +33,6 @@ spring:
           timeout: 5000
           starttls:
             enable: true
-
-  kafka:
-    bootstrap-servers: 15.164.228.135:9092, 54.180.56.87:9092, 13.124.83.93:9092
-
-  datasource:
-    url: jdbc:mysql://db-capstone.ckklth9vipd7.ap-northeast-2.rds.amazonaws.com:3306/capstone
-    username: admin
-    password: Abcd123~
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
 
   servlet:
     multipart:
