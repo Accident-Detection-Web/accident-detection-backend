@@ -35,6 +35,19 @@ spring:
           starttls:
             enable: true
 
+    kafka:
+      bootstrap-servers: 15.164.228.135:9092, 54.180.56.87:9092, 13.124.83.93:9092
+
+    mail:
+      password: xxac auuo gvqe kouf
+
+    datasource:
+      url: jdbc:mysql://db-capstone.ckklth9vipd7.ap-northeast-2.rds.amazonaws.com:3306/capstone
+      username: admin
+      password: Abcd123~
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+
   servlet:
     multipart:
       max-file-size: 15MB
@@ -57,3 +70,12 @@ springdoc:
     path: /swagger-ui/index.html
   api-docs:
     path: /v1/api-docs
+
+
+naver:
+  client-key: 4nqjg17mp4
+  client-secret-key: 6soiuZVRnR7eETaDKQmIf5x9ktGr9D8TnvaavJOg
+
+public:
+  api:
+    service-key: =351qYfh59jJHQGLGCTf2af0is6PVkCNFKEfj2%2FdXVQKfBWFGg1%2BiSHbG6D6edWitwcgQ%2FKV6P82xpCPpM%2FD4sg%3D%3D
