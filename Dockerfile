@@ -13,6 +13,9 @@ COPY ${JAR_FILE} app.jar
 COPY src/main/resources/application.yml /app/config/application.yml
 #COPY src/main/resources/application-secret.yml /app/config/application-secret.yml
 
+# 권한 설정 (필요한 경우)
+RUN chmod 644 /app/config/application.yml
+
 # 애플리케이션 실행
 ENTRYPOINT ["java", "-Dspring.config.location=/app/config/application.yml", "-jar", "/app/app.jar"]
 
