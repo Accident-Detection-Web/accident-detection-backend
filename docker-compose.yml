@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   spring-app:
-    image: inheecho/test-v7  # Spring Boot 애플리케이션 이미지
+    image: inheecho/test-v8  # Spring Boot 애플리케이션 이미지
     container_name: spring-app-test
     environment:
       - SPRING_PROFILES_ACTIVE=docker
