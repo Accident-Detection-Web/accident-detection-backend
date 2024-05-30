@@ -56,6 +56,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             // access 토큰이 유효하면 그대로 반환 -> validateToken
             // 만료되어 refresh 토큰을 통해 반환되면 새로운 토큰 발급 -> validateToken
+            accessTokenValue = jwtUtil.substringToken(accessTokenValue);
             String token = jwtUtil.validateToken(accessTokenValue, refreshTokenValue, res);
             accessTokenValue = token;
 
