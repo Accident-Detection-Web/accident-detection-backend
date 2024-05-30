@@ -69,7 +69,7 @@ public class WebSecurityConfig {
                 "https://capstone-2024-frontend-only.vercel.app",
                 "https://backend-capstone.site",
                 "http://backend-capstone.site:8080",
-                "http://s12-mynextjs.ap-northeast-2.elasticbeanstalk.com",
+                "http://s13-mynextjs.ap-northeast-2.elasticbeanstalk.com",
                 "http://capstone-aiserver.shop"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
