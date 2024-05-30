@@ -71,10 +71,11 @@ public class WebSecurityConfig {
                 "http://backend-capstone.site:8080",
                 "http://S12-mynextjs.ap-northeast-2.elasticbeanstalk.com",
                 "//S12-mynextjs.ap-northeast-2.elasticbeanstalk.com",
-                "http://capstone-aiserver.shop"));
+                "http://capstone-aiserver.shop",
+                "*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
-            "Cache-Control", "Content-Type","Temporary_Authorization"));
+            "Cache-Control", "Content-Type","Temporary_Authorization", "*"));
         configuration.setExposedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER
             ,"Temporary_Authorization"));
         configuration.setMaxAge(1800L);
