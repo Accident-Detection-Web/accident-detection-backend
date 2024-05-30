@@ -77,7 +77,7 @@ public class WebSecurityConfig {
         configuration.setAllowedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,
             "Cache-Control", "Content-Type","Temporary_Authorization", "*"));
         configuration.setExposedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER
-            ,"Temporary_Authorization"));
+            ,"Temporary_Authorization", "*"));
         configuration.setMaxAge(1800L);
         configuration.setAllowCredentials(true);
 
