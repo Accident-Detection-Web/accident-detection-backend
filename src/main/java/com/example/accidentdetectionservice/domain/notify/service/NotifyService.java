@@ -53,7 +53,7 @@ public class NotifyService {
             sendLostData(lastEventId, username, emitterId, emitter);
         }
         // 주기적인 더미 이벤트 전송
-//        sendPeriodicDummyEvent(emitter, username);
+        sendPeriodicDummyEvent(emitter, username);
 
         return emitter;
     }
