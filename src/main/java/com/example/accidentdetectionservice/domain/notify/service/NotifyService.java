@@ -41,9 +41,14 @@ public class NotifyService {
         String emitterId = makeTimeIncludeId(username);
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
 
-        emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
-        emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
-
+        emitter.onCompletion(() -> {
+            log.info("Emitter completed for emitterId: {}", emitterId);
+            emitterRepository.deleteById(emitterId);
+        });
+        emitter.onTimeout(() -> {
+            log.info("Emitter timed out for emitterId: {}", emitterId);
+            emitterRepository.deleteById(emitterId);
+        });
         // 503 에러 방지를 위한 더미 이벤트 전송
         String eventId = makeTimeIncludeId(username);
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userEmail=" + username + "]");
@@ -79,6 +84,9 @@ public class NotifyService {
             );
         } catch (IOException exception) {
             log.error("Error sendNotification = {}", exception.toString());
+            emitterRepository.deleteById(emitterId);
+        } catch (IllegalStateException exception) {
+            log.error("Emitter already completed: {}", emitterId);
             emitterRepository.deleteById(emitterId);
         }
     }
