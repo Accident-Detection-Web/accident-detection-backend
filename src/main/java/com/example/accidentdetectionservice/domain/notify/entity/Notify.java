@@ -38,8 +38,8 @@ public class Notify extends Auditable {
     @Column(nullable = false)
     private Boolean isRead;
 
+//    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private NotificationType notificationType;
 
     @ManyToOne
@@ -62,7 +62,7 @@ public class Notify extends Auditable {
         this.isRead = isRead;
     }
 
-
+    @Getter
     public enum NotificationType{
         ACCIDENT
     }

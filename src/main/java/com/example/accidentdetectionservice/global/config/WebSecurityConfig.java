@@ -68,7 +68,8 @@ public class WebSecurityConfig {
                 "http://mynextjs.shop",
                 "https://backend-capstone.site",
                 "http://backend-capstone.site:8080",
-                "http://capstone-aiserver.shop"
+                "http://capstone-aiserver.shop",
+                "http://43.201.252.165:8080"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.REFRESH_HEADER,

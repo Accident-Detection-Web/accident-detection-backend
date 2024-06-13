@@ -11,4 +11,5 @@ public interface EmitterRepository {
     void deleteById(String id);
     void deleteAllEmitterStartWithId(String userId);
     void deleteAllEventCacheStartWithId(String userId);
+    SseEmitter findById(String emitterId); // 새로운 메서드
 }

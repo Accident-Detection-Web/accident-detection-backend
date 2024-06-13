@@ -5,6 +5,7 @@ import com.example.accidentdetectionservice.domain.notify.entity.Notify;
 import com.example.accidentdetectionservice.domain.notify.service.NotifyService;
 import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
 import com.example.accidentdetectionservice.domain.user.entity.User;
+import com.example.accidentdetectionservice.global.kafka.producer.dto.NotificationDataDto;
 import com.example.accidentdetectionservice.global.security.UserDetailsImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,10 +30,10 @@ public class NotifyProducerService {
     private final ObjectMapper objectMapper;
 
 
-    public void sendAccidentDetectionNotification(User receiver) {
-
+    public void sendAccidentDetectionNotification(User receiver, Boolean isFirst, String lastEventId) {
+        NotificationDataDto notificationDataDto = new NotificationDataDto(receiver, isFirst, lastEventId);
         try {
-            String receiverMessage = objectMapper.writeValueAsString(receiver); // <- 흠
+            String receiverMessage = objectMapper.writeValueAsString(notificationDataDto); // <- 흠
             log.info("Attempting to serialize User: {}", receiver);
             CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("notify-1",
                     receiverMessage);
