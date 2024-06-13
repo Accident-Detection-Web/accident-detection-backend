@@ -1,6 +1,8 @@
 package com.example.accidentdetectionservice.domain.hospital.service;
 
 import com.example.accidentdetectionservice.domain.hospital.dto.AllDataResponseDto;
+import com.example.accidentdetectionservice.domain.hospital.dto.DetailsRequestDto;
+import com.example.accidentdetectionservice.domain.hospital.dto.DetailsResponseDto;
 import com.example.accidentdetectionservice.domain.hospital.dto.HospitalResponseDto;
 import com.example.accidentdetectionservice.domain.accident.entity.Accident;
 import com.example.accidentdetectionservice.domain.hospital.entity.Hospital;
@@ -105,7 +107,9 @@ public class HospitalService {
         Map<String ,Long> map = new HashMap<>();
         List<Accident> accidentList = accidentRepository.findAll();
         for (Accident accident : accidentList) {
-            String[] dateTimeParts = accident.getDate().split(" ");
+
+            String dataString = accident.getDate().trim();
+            String[] dateTimeParts = dataString.split(" ");
             String[] dateParts = dateTimeParts[0].split("-");
 
             String yearMonth = dateParts[0] + "-" + dateParts[1];
@@ -161,6 +165,12 @@ public class HospitalService {
         return map;
     }
 
+    public DetailsResponseDto getAccidentDetails(DetailsRequestDto requestDto) {
+        Accident accident = accidentRepository.findById(requestDto.getAccidentId()).orElseThrow(() ->
+            new IllegalArgumentException("해당 Accident Id 에 저장된 사고 객체가 없습니다."));
+
+        return new DetailsResponseDto(accident);
+    }
 
 //    public String getHospitalInfo() throws Exception {
 //        StringBuilder hospitalInfoBuilder = new StringBuilder();

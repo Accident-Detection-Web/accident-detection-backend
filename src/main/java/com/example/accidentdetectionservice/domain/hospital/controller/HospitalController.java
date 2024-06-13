@@ -1,6 +1,8 @@
 package com.example.accidentdetectionservice.domain.hospital.controller;
 
 import com.example.accidentdetectionservice.domain.hospital.dto.AllDataResponseDto;
+import com.example.accidentdetectionservice.domain.hospital.dto.DetailsRequestDto;
+import com.example.accidentdetectionservice.domain.hospital.dto.DetailsResponseDto;
 import com.example.accidentdetectionservice.domain.hospital.service.HospitalService;
 import com.example.accidentdetectionservice.domain.hospital.dto.HospitalResponseDto;
 import com.example.accidentdetectionservice.global.security.UserDetailsImpl;
@@ -9,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,4 +80,17 @@ public class HospitalController {
         }
     }
 
+    /**
+     * views 클릭했을때 프론트쪽에서 호출해야되는 api
+     * url : /api/hospital/accident/details
+     * 해당 병원의 상세 정보 및 사고 시점의 이미지 파일
+     */
+    @PostMapping("/accident/details")
+    public ResponseEntity<DetailsResponseDto> getAccidentDetails(@RequestBody DetailsRequestDto requestDto){
+        try {
+            return ResponseEntity.ok(hospitalService.getAccidentDetails(requestDto));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get accident Details information");
+        }
+    }
 }
