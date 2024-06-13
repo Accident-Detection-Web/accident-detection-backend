@@ -6,6 +6,9 @@ import com.example.accidentdetectionservice.domain.accident.repository.AccidentR
 import com.example.accidentdetectionservice.domain.hospital.repository.HospitalRepository;
 import com.example.accidentdetectionservice.domain.mail.entity.MailEvent;
 import com.example.accidentdetectionservice.domain.mail.repository.MailRepository;
+import com.example.accidentdetectionservice.domain.notify.dto.NotifyMessage;
+import com.example.accidentdetectionservice.domain.notify.entity.Notify;
+import com.example.accidentdetectionservice.domain.notify.service.NotifyService;
 import com.example.accidentdetectionservice.domain.user.dto.MessageResponseDto;
 import com.example.accidentdetectionservice.domain.user.entity.User;
 import com.example.accidentdetectionservice.global.kafka.producer.notify.NotifyProducerService;
@@ -24,6 +27,7 @@ public class AccidentService {
     private final HospitalRepository hospitalRepository;
     private final ReverseGeocodingService reverseGeocodingService;
     private final NotifyProducerService notifyProducerService;
+    private final NotifyService notifyService;
 
     /**
      * @apiNote
@@ -35,7 +39,12 @@ public class AccidentService {
     @Transactional
     public MessageResponseDto processFileAndData(byte[] image, AccidentRequestDto requestDto, User user)  {
 
-        notifyProducerService.sendAccidentDetectionNotification(user);
+//        notifyProducerService.sendAccidentDetectionNotification(user, false, null);
+        notifyService.send(user,
+            Notify.NotificationType.ACCIDENT,
+            NotifyMessage.ACCIDENT_DETECTION.getMessage(),
+            null);
+
 
         createAccidentEvent(image, requestDto, user);
 
