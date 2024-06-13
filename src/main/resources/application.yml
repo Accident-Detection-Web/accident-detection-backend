@@ -43,8 +43,8 @@ spring:
       max-swallow-size: 15MB
       max-http-post-size: 15MB
 
-  kafka:
-    bootstrap-servers: 15.164.228.135:9092, 54.180.56.87:9092, 13.124.83.93:9092
+#  kafka:
+#    bootstrap-servers: 15.164.228.135:9092, 54.180.56.87:9092, 13.124.83.93:9092
 
   datasource:
     url: jdbc:mysql://db-capstone.ckklth9vipd7.ap-northeast-2.rds.amazonaws.com:3306/capstone
